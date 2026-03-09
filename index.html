@@ -208,16 +208,23 @@
     .reveal-right.visible { opacity:1; transform:translateX(0); }
     .delay-1{transition-delay:0.1s} .delay-2{transition-delay:0.2s} .delay-3{transition-delay:0.3s} .delay-4{transition-delay:0.4s}
 
-    /* HAMBURGER MENU */
+    /* HAMBURGER */
     .hamburger {
       display: none;
-      flex-direction: column; gap: 5px;
-      cursor: pointer; padding: 4px;
-      background: none; border: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 210;
     }
     .hamburger span {
-      display: block; width: 24px; height: 2px;
-      background: var(--text); border-radius: 2px;
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
       transition: transform 0.3s, opacity 0.3s;
     }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -226,97 +233,100 @@
 
     .mobile-menu {
       display: none;
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(6,6,10,0.98);
-      z-index: 190;
-      flex-direction: column; align-items: center; justify-content: center;
-      gap: 40px;
-      backdrop-filter: blur(20px);
+      position: fixed;
+      inset: 0;
+      background: rgba(6,6,10,0.97);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
     }
     .mobile-menu.open { display: flex; }
     .mobile-menu a {
-      font-family: var(--font-head); font-size: 32px; font-weight: 800;
-      color: var(--text); text-decoration: none; letter-spacing: -0.03em;
-      transition: color 0.2s;
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.03em;
     }
-    .mobile-menu a:hover { color: var(--accent2); }
-    .mobile-menu .nav-btn { font-size: 16px; padding: 16px 40px; }
+    .mobile-menu .nav-btn { font-size: 16px; padding: 14px 36px; margin-top: 8px; }
 
     @media (max-width: 900px) {
       /* NAV */
-      nav { padding: 18px 24px; }
+      nav { padding: 16px 20px; }
       .nav-links { display: none; }
-      .hamburger { display: flex; }
       .nav-btn { display: none; }
+      .hamburger { display: flex; }
 
       /* HERO */
-      .hero { padding: 100px 24px 80px; }
-      .hero-title { font-size: clamp(42px, 12vw, 72px); }
-      .hero-actions { flex-direction: column; align-items: center; gap: 12px; }
-      .btn-primary, .btn-secondary { width: 100%; text-align: center; padding: 16px 24px; }
+      .hero { padding: 110px 20px 80px; text-align: center; }
+      .hero-title { font-size: clamp(40px, 11vw, 68px); }
+      .hero-sub { font-size: 17px; }
+      .hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+      .btn-primary, .btn-secondary { text-align: center; padding: 16px 20px; }
 
       /* SECTIONS */
-      section { padding: 80px 24px; }
+      section { padding: 72px 20px; }
 
       /* STATS */
-      .stats-bar { flex-wrap: wrap; padding: 0; }
-      .stat-item { width: 50%; border-bottom: 1px solid var(--border); padding: 28px 16px; }
-      .stat-item:nth-child(2) { border-right: none; }
+      .stats-bar { flex-wrap: wrap; gap: 0; }
+      .stat-item {
+        width: 50%;
+        padding: 24px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .stat-item:nth-child(odd) { border-right: 1px solid var(--border); }
 
       /* SERVICES */
-      .services-header { flex-direction: column; align-items: flex-start; gap: 24px; }
-      .services-grid { grid-template-columns: 1fr; }
-      .svc-card { padding: 36px 28px; }
-
-      /* INTEGRATIONS */
-      #integrations { padding: 80px 24px !important; }
-      #integrations > div { grid-template-columns: 1fr !important; gap: 48px !important; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .services-grid { grid-template-columns: 1fr; gap: 16px; }
+      .svc-card { padding: 32px 24px; }
 
       /* WORK */
-      .work { padding: 80px 0; }
-      .work-header { padding: 0 24px; }
-      .work-track { padding: 0 24px; }
-      .work-card { width: 300px; padding: 28px; }
-      .work-controls { padding: 32px 24px 0; }
+      .work { padding: 72px 0; }
+      .work-header { padding: 0 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .work-track { padding: 0 20px; gap: 16px; }
+      .work-card { min-width: 280px; width: 280px; padding: 28px 24px; }
+      .work-controls { padding: 28px 20px 0; }
 
       /* PROCESS */
-      .process { margin: 0 16px; padding: 48px 24px; }
-      .process-header { flex-direction: column; gap: 24px; }
-      .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .process { margin: 0 12px; padding: 48px 20px; }
+      .process-header { flex-direction: column; gap: 20px; }
+      .process-steps { grid-template-columns: 1fr 1fr; gap: 36px; }
       .process-steps::before { display: none; }
-      .p-step { padding: 0 8px; }
 
       /* AUDIENCE */
-      .audience-grid { grid-template-columns: 1fr; gap: 16px; }
-      .aud-card { padding: 32px 28px; }
+      .audience-grid { grid-template-columns: 1fr; gap: 14px; }
+      .aud-card { padding: 28px 24px; }
 
       /* PRICING */
-      #priser { padding: 80px 24px !important; }
       .price-card { grid-template-columns: 1fr; }
-      .price-left { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 32px; }
-      .price-right { padding: 40px 32px; }
+      .price-left { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 28px; }
+      .price-right { padding: 40px 28px; }
 
       /* CTA */
-      .cta-section { margin: 0 16px 60px; padding: 60px 24px; }
-      .cta-section .btn-white,
-      .cta-section .btn-white-outline { display: block; width: 100%; margin: 0 0 12px 0; text-align: center; box-sizing: border-box; }
+      .cta-section { margin: 0 12px 60px; padding: 56px 24px; }
+      .cta-title { font-size: clamp(30px, 9vw, 48px); }
+      .cta-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+      .btn-white, .btn-white-outline { text-align: center; padding: 16px 20px; }
 
       /* MODAL */
-      .modal-box { padding: 32px 24px; }
+      .modal-box { padding: 32px 20px; margin: 20px; }
       .field-group { grid-template-columns: 1fr; }
 
       /* FOOTER */
-      .footer-top { grid-template-columns: 1fr; gap: 40px; }
-      footer { padding: 60px 24px 32px; }
-      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      footer { padding: 60px 20px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
     }
 
-    @media (max-width: 480px) {
-      .hero-title { font-size: clamp(38px, 13vw, 56px); }
+    @media (max-width: 500px) {
+      .hero-title { font-size: clamp(36px, 12vw, 52px); }
+      .process-steps { grid-template-columns: 1fr; gap: 28px; }
+      .footer-top { grid-template-columns: 1fr; }
       .stat-item { width: 50%; }
-      .work-card { width: 280px; }
-      .process-steps { grid-template-columns: 1fr; gap: 32px; }
-      .cta-title { font-size: clamp(32px, 10vw, 48px); }
     }
   </style>
 </head>
@@ -334,16 +344,17 @@
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
   <a href="#kontakt" class="nav-btn">Kom i gang →</a>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
+  <button class="hamburger" id="hamburger" aria-label="Åbn menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#services" class="mobile-link">Ydelser</a>
-  <a href="#work" class="mobile-link">Cases</a>
-  <a href="#process" class="mobile-link">Proces</a>
-  <a href="#priser" class="mobile-link">Priser</a>
+  <a href="#services" class="mob-link">Ydelser</a>
+  <a href="#work" class="mob-link">Cases</a>
+  <a href="#process" class="mob-link">Proces</a>
+  <a href="#priser" class="mob-link">Priser</a>
+  <a href="#kontakt" class="mob-link">Kontakt</a>
   <a href="#kontakt" class="nav-btn">Kom i gang →</a>
 </div>
 
@@ -545,7 +556,7 @@
   <div class="cta-content">
     <h2 class="cta-title">Klar til din næste hjemmeside?</h2>
     <p class="cta-sub">Uforpligtende samtale. Svar inden for 24 timer.</p>
-    <a href="/cdn-cgi/l/email-protection#3b774e58504e484154557b5c565a525715585456" class="btn-white">Skriv til os</a>
+    <a href="mailto:Luckuszon@gmail.com" class="btn-white">Skriv til os</a>
     <button class="btn-white-outline" onclick="document.getElementById('leadModal').classList.add('open')">Bliv ringet op</button>
   </div>
 </div>
@@ -596,7 +607,7 @@
     </div>
     <div class="footer-col">
       <h5>Kontakt</h5>
-      <a href="/cdn-cgi/l/email-protection#501c25333b25232a3f3e10373d31393c7e333f3d"><span class="__cf_email__" data-cfemail="9cd0e9fff7e9efe6f3f2dcfbf1fdf5f0b2fff3f1">[email&#160;protected]</span></a>
+      <a href="mailto:Luckuszon@gmail.com">Luckuszon@gmail.com</a>
       <a href="#">+45 12 34 56 78</a>
     </div>
   </div>
@@ -606,21 +617,22 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Hamburger menu
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
   hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   });
-  document.querySelectorAll('.mobile-link, .mobile-menu .nav-btn').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
-    });
+  document.querySelectorAll('.mob-link, .mobile-menu .nav-btn').forEach(el => {
+    el.addEventListener('click', closeMobileMenu);
   });
 
   const cur = document.getElementById('cursor');
@@ -645,7 +657,7 @@
     const msg = document.getElementById('leadMsg').value.trim();
     if (!name || !phone) { alert('Udfyld venligst navn og telefonnummer.'); return; }
     const subject = encodeURIComponent('Ny lead: Bliv ringet op — ' + name);
-    const body = encodeURIComponent('Navn: ' + name + '\nTelefon: ' + phone + '\nE-mail: ' + (email||'—') + '\n\nBesked:\n' + (msg||'—'));
+    const body = encodeURIComponent('Navn: ' + name + 'Telefon: ' + phone + 'E-mail: ' + (email||'—') + 'Besked:' + (msg||'—'));
     window.location.href = 'mailto:Luckuszon@gmail.com?subject=' + subject + '&body=' + body;
     document.getElementById('leadForm').style.display = 'none';
     document.getElementById('leadSuccess').style.display = 'block';
@@ -658,4 +670,12 @@
   document.getElementById('prevBtn').onclick = () => { offset=Math.max(offset-cardW,0); track.style.transform=`translateX(-${offset}px)`; };
 
   document.querySelectorAll('.svc-card').forEach(card => {
-    card.addEventList
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+      card.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    });
+  });
+</script>
+</body>
+</html>
