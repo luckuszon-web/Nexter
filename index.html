@@ -30,6 +30,11 @@
     #cursor-trail { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 1px solid rgba(124,109,250,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; }
     body:has(a:hover) #cursor, body:has(button:hover) #cursor { width: 48px; height: 48px; background: rgba(124,109,250,0.3); }
 
+    @media (hover: none) and (pointer: coarse) {
+      body { cursor: auto; }
+      #cursor, #cursor-trail { display: none; }
+    }
+
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 24px 56px; transition: background 0.5s, backdrop-filter 0.5s, border-color 0.5s; border-bottom: 1px solid transparent; }
     nav.scrolled { background: rgba(6,6,10,0.85); backdrop-filter: blur(20px); border-color: var(--border); }
     .logo { font-family: var(--font-head); font-size: 22px; font-weight: 800; letter-spacing: -0.03em; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 2px; }
@@ -280,17 +285,23 @@
       section { padding: 72px 20px; }
 
       /* STATS */
-      .stats-bar { flex-wrap: wrap; gap: 0; }
+      .stats-bar { padding: 0; flex-wrap: wrap; }
       .stat-item {
+        flex: none;
         width: 50%;
-        padding: 24px 16px;
+        padding: 28px 16px;
+        border-right: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
       }
-      .stat-item:nth-child(odd) { border-right: 1px solid var(--border); }
+      .stat-item:nth-child(even) { border-right: none; }
+      .stat-item:nth-child(3),
+      .stat-item:nth-child(4) { border-bottom: none; }
+      .stat-number { font-size: clamp(20px, 6vw, 30px); white-space: normal; }
+      .stat-label { font-size: 12px; }
 
       /* SERVICES */
       .services-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-      .services-grid { grid-template-columns: 1fr; gap: 16px; }
+      .services-grid { grid-template-columns: 1fr; gap: 2px; }
       .svc-card { padding: 32px 24px; }
 
       /* WORK */
@@ -348,7 +359,6 @@
   <a href="#" class="logo">next<span class="logo-dot">er</span></a>
   <ul class="nav-links">
     <li><a href="#services">Ydelser</a></li>
-    <li><a href="#work">Cases</a></li>
     <li><a href="#process">Proces</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
@@ -360,7 +370,6 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services" class="mob-link">Ydelser</a>
-  <a href="#work" class="mob-link">Cases</a>
   <a href="#process" class="mob-link">Proces</a>
   <a href="#priser" class="mob-link">Priser</a>
   <a href="#kontakt" class="mob-link">Kontakt</a>
@@ -462,36 +471,6 @@
         <div><div class="int-name">Og meget mere</div><p class="int-text">Google Analytics, Google Tag Manager, HubSpot, Mailchimp — vi opsætter de integrationer din virksomhed har brug for.</p></div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="work" id="work">
-  <div class="work-header">
-    <div class="reveal"><div class="s-label">Cases</div><h2 class="s-title">Vores arbejde</h2></div>
-  </div>
-  <div class="work-scroll-outer">
-    <div class="work-track" id="workTrack">
-      <div class="work-card reveal delay-1">
-        <div class="work-card-img"><div class="work-card-mock"><div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-content"><div class="mock-line accent"></div><div class="mock-line med"></div><div class="mock-line short"></div><div class="mock-line med"></div><div class="mock-line short"></div></div></div></div>
-        <div class="work-tag">Håndværk</div><div class="work-title">Hansen VVS</div><div class="work-result"><span>+240%</span> flere henvendelser</div>
-      </div>
-      <div class="work-card reveal delay-2">
-        <div class="work-card-img" style="background:linear-gradient(135deg,var(--surface2),rgba(74,222,128,0.1))"><div class="work-card-mock"><div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-content"><div class="mock-line" style="background:rgba(74,222,128,0.4);width:55%"></div><div class="mock-line med"></div><div class="mock-line short"></div><div class="mock-line med"></div></div></div></div>
-        <div class="work-tag" style="color:var(--green)">Restaurant</div><div class="work-title">Café Nørre</div><div class="work-result"><span>Fuldt booket</span> hver weekend</div>
-      </div>
-      <div class="work-card reveal delay-3">
-        <div class="work-card-img" style="background:linear-gradient(135deg,var(--surface2),rgba(251,191,36,0.1))"><div class="work-card-mock"><div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-content"><div class="mock-line" style="background:rgba(251,191,36,0.4);width:70%"></div><div class="mock-line med"></div><div class="mock-line short"></div><div class="mock-line"></div></div></div></div>
-        <div class="work-tag" style="color:#fbbf24">Detailhandel</div><div class="work-title">Blomsterbutikken</div><div class="work-result">Webshop lanceret på <span>3 uger</span></div>
-      </div>
-      <div class="work-card reveal delay-4">
-        <div class="work-card-img" style="background:linear-gradient(135deg,var(--surface2),rgba(248,113,113,0.1))"><div class="work-card-mock"><div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-content"><div class="mock-line" style="background:rgba(248,113,113,0.4);width:45%"></div><div class="mock-line med"></div><div class="mock-line short"></div><div class="mock-line med"></div></div></div></div>
-        <div class="work-tag" style="color:#f87171">Jura</div><div class="work-title">Advokatfirmaet Berg</div><div class="work-result"><span>+180%</span> organisk trafik</div>
-      </div>
-    </div>
-  </div>
-  <div class="work-controls">
-    <button class="work-btn" id="prevBtn">←</button>
-    <button class="work-btn" id="nextBtn">→</button>
   </div>
 </section>
 
@@ -671,12 +650,6 @@
     document.getElementById('leadForm').style.display = 'none';
     document.getElementById('leadSuccess').style.display = 'block';
   }
-
-  const track = document.getElementById('workTrack');
-  let offset = 0;
-  const cardW = 404;
-  document.getElementById('nextBtn').onclick = () => { const max=(track.children.length-2)*cardW; offset=Math.min(offset+cardW,max); track.style.transform=`translateX(-${offset}px)`; };
-  document.getElementById('prevBtn').onclick = () => { offset=Math.max(offset-cardW,0); track.style.transform=`translateX(-${offset}px)`; };
 
   document.querySelectorAll('.svc-card').forEach(card => {
     card.addEventListener('mousemove', e => {
