@@ -120,7 +120,7 @@
     .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
     .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
     .svc-card { background: var(--surface); padding: 48px 40px; transition: background 0.4s; position: relative; overflow: hidden; }
-    .svc-card::after { content:''; position: absolute; inset:0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(124,109,250,0.12) 0%, transparent 60%); opacity:0; transition: opacity 0.3s; }
+    .svc-card::after { content:''; position: absolute; inset:0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(124,109,250,0.12) 0%, transparent 60%); opacity:0; transition: opacity 0.3s; pointer-events: none; }
     .svc-card:hover::after { opacity:1; }
     .svc-card:hover { background: var(--surface2); }
     .svc-icon-wrap { width: 52px; height: 52px; background: rgba(124,109,250,0.12); border: 1px solid rgba(124,109,250,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; transition: background 0.3s, transform 0.3s; }
