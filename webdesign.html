@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webdesign & Udvikling — Nexter</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060a;
+      --surface: #0e0e16;
+      --surface2: #13131e;
+      --border: rgba(255,255,255,0.06);
+      --text: #f0eff8;
+      --muted: rgba(240,239,248,0.45);
+      --accent: #3b82f6;
+      --accent2: #60a5fa;
+      --green: #4ade80;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+    #cursor { position: fixed; top:0; left:0; width:12px; height:12px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transition:width .3s,height .3s,background .3s; mix-blend-mode:screen; }
+    #cursor-trail { position:fixed; top:0; left:0; width:40px; height:40px; border:1px solid rgba(124,109,250,0.4); border-radius:50%; pointer-events:none; z-index:9998; }
+    body:has(a:hover) #cursor, body:has(button:hover) #cursor { width:48px; height:48px; background:rgba(124,109,250,0.3); }
+    @media (hover:none) and (pointer:coarse) { body { cursor:auto; } #cursor,#cursor-trail { display:none; } }
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; padding:24px 56px; transition:background .5s,backdrop-filter .5s,border-color .5s; border-bottom:1px solid transparent; }
+    nav.scrolled { background:rgba(6,6,10,0.85); backdrop-filter:blur(20px); border-color:var(--border); }
+    .logo { font-family:var(--font-head); font-size:22px; font-weight:800; letter-spacing:-0.03em; text-decoration:none; color:var(--text); }
+    .logo-dot { color:var(--accent); }
+    .nav-links { display:flex; gap:40px; list-style:none; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; transition:color .2s; }
+    .nav-links a:hover { color:var(--text); }
+    .nav-btn { background:var(--accent); color:white; padding:11px 26px; border-radius:100px; font-size:13px; font-weight:600; text-decoration:none; transition:transform .2s,box-shadow .2s,background .2s; }
+    .nav-btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(59,130,246,0.4); background:var(--accent2); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; z-index:210; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--text); border-radius:2px; transition:transform .3s,opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display:none; position:fixed; inset:0; background:rgba(6,6,10,0.97); z-index:200; flex-direction:column; align-items:center; justify-content:center; gap:36px; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-family:var(--font-head); font-size:28px; font-weight:800; color:var(--text); text-decoration:none; letter-spacing:-0.03em; }
+    .mobile-menu .nav-btn { font-size:16px; padding:14px 36px; margin-top:8px; }
+    /* HERO */
+    .hero { min-height: 75vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:140px 40px 80px; position:relative; overflow:hidden; }
+    .hero-mesh { position:absolute; inset:-50%; background:radial-gradient(ellipse 50% 50% at 20% 20%,rgba(59,130,246,0.15) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 80% 80%,rgba(96,165,250,0.1) 0%,transparent 60%); animation:meshMove 12s ease-in-out infinite alternate; pointer-events:none; }
+    @keyframes meshMove { 0%{transform:translate(0%,0%) rotate(0deg)} 50%{transform:translate(3%,-3%) rotate(2deg)} 100%{transform:translate(4%,2%) rotate(3deg)} }
+    .hero-grid { position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:60px 60px; mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 80%); }
+    .orb { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; animation:orbFloat 8s ease-in-out infinite; }
+    .orb-1 { width:400px; height:400px; background:rgba(59,130,246,0.1); top:-100px; left:-100px; }
+    .orb-2 { width:300px; height:300px; background:rgba(96,165,250,0.07); bottom:-50px; right:-50px; animation-delay:-3s; }
+    @keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-30px) scale(1.05)} }
+    .hero-content { position:relative; z-index:1; max-width:800px; }
+    .breadcrumb { display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); margin-bottom:28px; animation:fadeDown .8s ease both; }
+    .breadcrumb a { color:var(--muted); text-decoration:none; transition:color .2s; }
+    .breadcrumb a:hover { color:var(--accent2); }
+    .breadcrumb-sep { color:rgba(255,255,255,0.2); }
+    .hero-pill { display:inline-flex; align-items:center; gap:8px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.25); color:var(--accent2); padding:8px 18px; border-radius:100px; font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:28px; animation:fadeDown .8s ease .1s both; }
+    .hero-title { font-family:var(--font-head); font-size:clamp(44px,7vw,88px); font-weight:800; line-height:0.95; letter-spacing:-0.04em; margin-bottom:24px; animation:fadeUp .9s ease .15s both; }
+    .hero-title .grad { color:var(--accent2); }
+    .hero-sub { font-size:clamp(16px,1.8vw,19px); color:var(--muted); line-height:1.7; max-width:520px; margin:0 auto 44px; font-weight:300; animation:fadeUp .9s ease .25s both; }
+    .hero-actions { display:flex; gap:14px; justify-content:center; animation:fadeUp .9s ease .35s both; flex-wrap:wrap; }
+    .btn-primary { background:var(--accent); color:white; padding:16px 36px; border-radius:100px; font-size:14px; font-weight:600; text-decoration:none; transition:transform .25s,box-shadow .25s,background .25s; box-shadow:0 4px 20px rgba(59,130,246,0.3); }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(59,130,246,0.5); background:var(--accent2); }
+    .btn-secondary { background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text); padding:16px 36px; border-radius:100px; font-size:14px; font-weight:500; text-decoration:none; transition:background .25s,border-color .25s,transform .25s; backdrop-filter:blur(10px); }
+    .btn-secondary:hover { background:rgba(255,255,255,0.09); border-color:rgba(255,255,255,0.15); transform:translateY(-3px); }
+    /* SECTIONS */
+    .s-label { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent2); font-weight:600; margin-bottom:20px; }
+    .s-label::before { content:''; width:20px; height:1px; background:var(--accent2); }
+    .s-title { font-family:var(--font-head); font-size:clamp(32px,4vw,52px); font-weight:800; letter-spacing:-0.03em; line-height:1.05; margin-bottom:16px; }
+    .s-sub { font-size:17px; color:var(--muted); line-height:1.7; font-weight:300; }
+    /* INCLUDES */
+    .includes { padding:120px 56px; }
+    .includes-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--border); border:1px solid var(--border); border-radius:20px; overflow:hidden; margin-top:64px; }
+    .inc-card { background:var(--surface); padding:44px 36px; position:relative; overflow:hidden; transition:background .3s; }
+    .inc-card::after { content:''; position:absolute; inset:0; background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(59,130,246,0.1) 0%,transparent 60%); opacity:0; transition:opacity .3s; }
+    .inc-card:hover::after { opacity:1; }
+    .inc-card:hover { background:var(--surface2); }
+    .inc-icon { width:52px; height:52px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:24px; transition:background .3s,transform .3s; }
+    .inc-card:hover .inc-icon { background:rgba(59,130,246,0.22); transform:scale(1.05); }
+    .inc-title { font-family:var(--font-head); font-size:18px; font-weight:700; letter-spacing:-0.02em; margin-bottom:10px; }
+    .inc-text { font-size:14px; color:var(--muted); line-height:1.7; font-weight:300; }
+    /* PROCESS STRIP */
+    .process-strip { background:var(--surface); padding:100px 56px; }
+    .process-inner { max-width:1100px; margin:0 auto; }
+    .process-header { text-align:center; margin-bottom:64px; }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:0; position:relative; }
+    .steps::before { content:''; position:absolute; top:28px; left:16%; right:16%; height:1px; background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent); }
+    .step { padding:0 32px; text-align:center; position:relative; z-index:1; }
+    .step-num { width:56px; height:56px; border-radius:50%; background:var(--bg); border:1px solid rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; margin:0 auto 24px; transition:background .3s,transform .3s; }
+    .step:hover .step-num { background:var(--accent); border-color:var(--accent); transform:scale(1.1); }
+    .step-n { font-family:var(--font-head); font-size:15px; font-weight:800; color:var(--accent2); }
+    .step:hover .step-n { color:white; }
+    .step-title { font-family:var(--font-head); font-size:17px; font-weight:700; margin-bottom:10px; }
+    .step-text { font-size:13px; color:var(--muted); line-height:1.7; font-weight:300; }
+    /* FAQ */
+    .faq { padding:120px 56px; max-width:860px; margin:0 auto; }
+    .faq-list { margin-top:56px; display:flex; flex-direction:column; gap:2px; border-radius:16px; overflow:hidden; border:1px solid var(--border); }
+    .faq-item { background:var(--surface); border-bottom:1px solid var(--border); overflow:hidden; }
+    .faq-item:last-child { border-bottom:none; }
+    .faq-q { width:100%; background:none; border:none; color:var(--text); font-family:var(--font-body); font-size:16px; font-weight:500; text-align:left; padding:26px 32px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:16px; transition:background .2s; }
+    .faq-q:hover { background:var(--surface2); }
+    .faq-icon { width:28px; height:28px; border-radius:50%; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .3s,transform .3s; }
+    .faq-item.open .faq-icon { background:var(--accent); border-color:var(--accent); transform:rotate(45deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(0.16,1,0.3,1); }
+    .faq-item.open .faq-a { max-height:300px; }
+    .faq-a-inner { padding:0 32px 26px; font-size:15px; color:var(--muted); line-height:1.75; font-weight:300; }
+    /* CTA */
+    .cta-section { margin:0 32px 80px; border-radius:32px; background:linear-gradient(135deg,var(--accent) 0%,#5b21b6 50%,var(--accent2) 100%); padding:100px 80px; text-align:center; position:relative; overflow:hidden; }
+    .cta-section::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .cta-content { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; }
+    .cta-title { font-family:var(--font-head); font-size:clamp(36px,5vw,62px); font-weight:800; letter-spacing:-0.04em; line-height:1; color:white; margin-bottom:16px; }
+    .cta-sub { font-size:17px; color:rgba(255,255,255,0.7); margin-bottom:40px; font-weight:300; }
+    .btn-white { display:inline-block; background:white; color:var(--accent); padding:18px 44px; border-radius:100px; font-size:15px; font-weight:700; text-decoration:none; transition:transform .25s,box-shadow .25s; }
+    .btn-white:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.3); }
+    /* FOOTER */
+    footer { padding:80px 56px 40px; border-top:1px solid var(--border); }
+    .footer-top { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:60px; margin-bottom:60px; }
+    .footer-brand .logo { font-size:24px; margin-bottom:14px; display:block; }
+    .footer-tagline { font-size:14px; color:var(--muted); line-height:1.6; font-weight:300; max-width:240px; }
+    .footer-col h5 { font-family:var(--font-head); font-size:12px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:20px; }
+    .footer-col a { display:block; color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; margin-bottom:10px; transition:color .2s; }
+    .footer-col a:hover { color:var(--accent2); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; padding-top:32px; border-top:1px solid var(--border); font-size:12px; color:var(--muted); }
+    /* ANIMATIONS */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(40px); transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-left { opacity:0; transform:translateX(-40px); transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-left.visible { opacity:1; transform:translateX(0); }
+    .delay-1{transition-delay:.1s} .delay-2{transition-delay:.2s} .delay-3{transition-delay:.3s} .delay-4{transition-delay:.4s} .delay-5{transition-delay:.5s} .delay-6{transition-delay:.6s}
+    /* RESPONSIVE */
+    @media (max-width:900px) {
+      nav { padding:16px 20px; }
+      .nav-links,.nav-btn { display:none; }
+      .hamburger { display:flex; }
+      .hero { padding:120px 20px 60px; }
+      .includes { padding:72px 20px; }
+      .includes-grid { grid-template-columns:1fr; }
+      .process-strip { padding:72px 20px; }
+      .steps { grid-template-columns:1fr; gap:36px; }
+      .steps::before { display:none; }
+      .faq { padding:72px 20px; }
+      .cta-section { margin:0 12px 60px; padding:56px 24px; }
+      .cta-title { font-size:clamp(28px,8vw,42px); }
+      footer { padding:60px 20px 32px; }
+      .footer-top { grid-template-columns:1fr 1fr; gap:36px; }
+      .footer-bottom { flex-direction:column; gap:10px; text-align:center; }
+    }
+    @media (max-width:500px) {
+      .hero-title { font-size:clamp(36px,10vw,52px); }
+      .footer-top { grid-template-columns:1fr; }
+      .hero-actions { flex-direction:column; align-items:stretch; }
+      .btn-primary,.btn-secondary { text-align:center; }
+    }
+  </style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+<nav id="nav">
+  <a href="index.html" class="logo">next<span class="logo-dot">er</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Ydelser</a></li>
+    <li><a href="index.html#process">Proces</a></li>
+    <li><a href="index.html#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="index.html#kontakt" class="nav-btn">Kom i gang →</a>
+  <button class="hamburger" id="hamburger" aria-label="Åbn menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#services" class="mob-link">Ydelser</a>
+  <a href="index.html#process" class="mob-link">Proces</a>
+  <a href="index.html#kontakt" class="mob-link">Kontakt</a>
+  <a href="index.html#kontakt" class="nav-btn">Kom i gang →</a>
+</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-mesh"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Forside</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="index.html#services">Ydelser</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Webdesign & udvikling</span>
+    </div>
+    <div class="hero-pill">Ydelse</div>
+    <h1 class="hero-title">Webdesign &<br><span class="grad">udvikling.</span></h1>
+    <p class="hero-sub">En hjemmeside der arbejder for dig – døgnet rundt. Vi tager os af alt fra design til lancering, så du kan fokusere på det du er bedst til.</p>
+    <div class="hero-actions">
+      <a href="index.html#kontakt" class="btn-primary">Få et gratis tilbud</a>
+      <a href="#hvad-er-inkluderet" class="btn-secondary">Se hvad der er inkluderet</a>
+    </div>
+  </div>
+</section>
+<!-- INCLUDES -->
+<section class="includes" id="hvad-er-inkluderet">
+  <div class="reveal-left">
+    <div class="s-label">Hvad er inkluderet</div>
+    <h2 class="s-title">Alt hvad du behøver.<br>Intet du ikke gør.</h2>
+    <p class="s-sub" style="max-width:480px;margin-top:8px;">Fra første designforslag til en live hjemmeside — vi leverer en komplet løsning uden skjulte tillæg.</p>
+  </div>
+  <div class="includes-grid">
+    <div class="inc-card reveal delay-1">
+      <div class="inc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <div class="inc-title">Skræddersyet design</div>
+      <p class="inc-text">Ingen skabeloner. Din hjemmeside bliver designet fra bunden, så den afspejler din virksomheds identitet og værdier præcist.</p>
+    </div>
+    <div class="inc-card reveal delay-2">
+      <div class="inc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+      </div>
+      <div class="inc-title">Mobilvenlig & hurtig</div>
+      <p class="inc-text">Over 70% af dine besøgende kommer fra en mobiltelefon. Vi sikrer at din side ser perfekt ud og loader hurtigt på alle enheder.</p>
+    </div>
+    <div class="inc-card reveal delay-3">
+      <div class="inc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="inc-title">SEO-optimering fra dag ét</div>
+      <p class="inc-text">Vi bygger din hjemmeside med søgemaskineoptimering i baghovedet, så Google kan finde dig og rangere dig højere end dine konkurrenter.</p>
+    </div>
+    <div class="inc-card reveal delay-4">
+      <div class="inc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div class="inc-title">Kontaktformular & lead-funktion</div>
+      <p class="inc-text">Gør det nemt for dine kunder at tage kontakt. Vi opsætter formularer der sender leads direkte til din indbakke.</p>
+    </div>
+    <div class="inc-card reveal delay-5">
+      <div class="inc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <div class="inc-title">Opsætning af domæne</div>
+      <p class="inc-text">Vi hjælper dig med det tekniske – du behøver ikke sætte dig ind i DNS-indstillinger og domæneopsætning.</p>
+    </div>
+    <div class="inc-card reveal delay-6">
+      <div class="inc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <div class="inc-title">30 dages support efter lancering</div>
+      <p class="inc-text">Når din side er live, er vi ikke forsvundet. De første 30 dage hjælper vi med justeringer og spørgsmål uden ekstra beregning.</p>
+    </div>
+  </div>
+</section>
+<!-- PROCESS -->
+<div class="process-strip">
+  <div class="process-inner">
+    <div class="process-header reveal">
+      <div class="s-label" style="justify-content:center;">Sådan arbejder vi</div>
+      <h2 class="s-title">Fra idé til livesite</h2>
+      <p class="s-sub">Enkel, gennemsigtig og hurtig — du ved altid hvad der sker.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal delay-1">
+        <div class="step-num"><div class="step-n">01</div></div>
+        <div class="step-title">Samtale</div>
+        <p class="step-text">Gratis samtale om din virksomhed, dine mål og hvad du har brug for.</p>
+      </div>
+      <div class="step reveal delay-2">
+        <div class="step-num"><div class="step-n">02</div></div>
+        <div class="step-title">Design & godkendelse</div>
+        <p class="step-text">Skræddersyet designforslag til din godkendelse — inden vi skriver kode.</p>
+      </div>
+      <div class="step reveal delay-3">
+        <div class="step-num"><div class="step-n">03</div></div>
+        <div class="step-title">Udvikling & go live</div>
+        <p class="step-text">Vi bygger hurtigt og effektivt. Du følger med og godkender undervejs — og vi sender dig live.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FAQ -->
+<div class="faq reveal">
+  <div class="s-label">FAQ</div>
+  <h2 class="s-title">Ofte stillede spørgsmål</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q">
+        Hvor lang tid tager det at bygge en hjemmeside?
+        <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Vi leverer typisk en færdig hjemmeside inden for 5–10 hverdage fra godkendt designforslag. Tidsplanen aftales altid inden vi går i gang.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Har jeg indflydelse på designet?
+        <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Ja – altid. Inden vi skriver en linje kode, præsenterer vi et designforslag du godkender. Du har mulighed for at komme med feedback undervejs.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Hvad koster en hjemmeside hos Nexter?
+        <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Vores startpris er 5.000 kr. for en komplet hjemmeside. Prisen afhænger af omfang og ønsker — kontakt os for et uforpligtende tilbud.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Ejer jeg hjemmesiden selv?
+        <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Ja, 100%. Når hjemmesiden er leveret og betalt, ejer du alle rettigheder til koden og designet.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Kan I opdatere min eksisterende hjemmeside?
+        <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Ja. Vi moderniserer og opdaterer også eksisterende hjemmesider. Kontakt os for en uforpligtende vurdering.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        Hvad sker der når de 30 dages support udløber?
+        <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Vi tilbyder løbende vedligehold og support som en separat ydelse. Vi skræddersyr en løsning der passer til dine behov.</div></div>
+    </div>
+  </div>
+</div>
+<!-- CTA -->
+<div class="cta-section reveal">
+  <div class="cta-content">
+    <h2 class="cta-title">Klar til din næste hjemmeside?</h2>
+    <p class="cta-sub">Uforpligtende samtale. Svar inden for 24 timer.</p>
+    <a href="index.html#kontakt" class="btn-white">Få et gratis tilbud →</a>
+  </div>
+</div>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">next<span class="logo-dot">er</span></a>
+      <p class="footer-tagline">Professionelle hjemmesider til lokale virksomheder. Hurtigt, enkelt og effektivt.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Ydelser</h5>
+      <a href="webdesign.html">Webdesign</a>
+      <a href="index.html#services">SEO</a>
+      <a href="index.html#services">Vedligehold</a>
+    </div>
+    <div class="footer-col">
+      <h5>Virksomhed</h5>
+      <a href="index.html">Om os</a>
+      <a href="index.html#priser">Priser</a>
+    </div>
+    <div class="footer-col">
+      <h5>Kontakt</h5>
+      <a href="mailto:Luckuszon@gmail.com">Luckuszon@gmail.com</a>
+      <a href="tel:+4528294979">+45 28 29 49 79</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Nexter. Alle rettigheder forbeholdes.</span>
+    <a href="privatlivspolitik.html" style="color:inherit;text-decoration:none;">Privatlivspolitik · Cookies</a>
+  </div>
+</footer>
+<script>
+  // Cursor
+  const cur = document.getElementById('cursor');
+  const trail = document.getElementById('cursor-trail');
+  let mx=0,my=0,tx=0,ty=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.transform=`translate(${mx-6}px,${my-6}px)`; });
+  function animTrail() { tx+=(mx-tx)*0.1; ty+=(my-ty)*0.1; trail.style.transform=`translate(${tx-20}px,${ty-20}px)`; requestAnimationFrame(animTrail); }
+  animTrail();
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mob-link, .mobile-menu .nav-btn').forEach(el => {
+    el.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+  // Reveal on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .reveal-left').forEach(el => obs.observe(el));
+  // Card mouse tracking
+  document.querySelectorAll('.inc-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+      card.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    });
+  });
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
