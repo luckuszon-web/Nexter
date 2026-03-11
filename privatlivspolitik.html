@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privatlivspolitik – Nexter</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      line-height: 1.75;
+      font-size: 16px;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 60px 32px 100px;
+    }
+    header {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 32px;
+      margin-bottom: 48px;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+    }
+    .logo .next { color: #1e293b; }
+    .logo .er   { color: #1e6eff; }
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .meta {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 8px;
+    }
+    .intro-box {
+      background: #eff6ff;
+      border-left: 4px solid #1e6eff;
+      border-radius: 0 8px 8px 0;
+      padding: 18px 22px;
+      margin-bottom: 48px;
+      font-size: 15px;
+      color: #1e40af;
+    }
+    section {
+      margin-bottom: 44px;
+    }
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      counter-increment: section;
+    }
+    h2::before {
+      content: counter(section) ". ";
+      color: #1e6eff;
+    }
+    body { counter-reset: section; }
+    p {
+      margin-bottom: 12px;
+      color: #334155;
+    }
+    ul {
+      list-style: none;
+      margin: 10px 0 14px 0;
+    }
+    ul li {
+      padding: 5px 0 5px 22px;
+      position: relative;
+      color: #334155;
+    }
+    ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #1e6eff;
+      font-weight: 700;
+      font-size: 13px;
+      top: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 15px;
+    }
+    th {
+      background: #f1f5f9;
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    td {
+      padding: 10px 14px;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f8fafc; }
+    a {
+      color: #1e6eff;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    .rights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0;
+    }
+    .right-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .right-card strong {
+      display: block;
+      color: #0f172a;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .right-card span {
+      font-size: 13px;
+      color: #64748b;
+    }
+    .contact-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-top: 48px;
+    }
+    .contact-box h3 {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .contact-box p { color: #94a3b8; margin-bottom: 6px; }
+    .contact-box a { color: #60a5fa; }
+    footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 13px;
+      color: #94a3b8;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .rights-grid { grid-template-columns: 1fr; }
+      .container { padding: 40px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo"><a href="index.html" style="text-decoration:none;"><span class="next">next</span><span class="er">er</span></a></div>
+    <h1>Privatlivspolitik</h1>
+    <p class="meta">Sidst opdateret: 11. marts 2026 &nbsp;·&nbsp; Version 1.0</p>
+  </header>
+  <div class="intro-box">
+    Hos Nexter tager vi beskyttelsen af dine personoplysninger alvorligt. Denne politik beskriver, hvordan vi indsamler, anvender og beskytter dine oplysninger i overensstemmelse med EU's Databeskyttelsesforordning (GDPR) og den danske databeskyttelseslov.
+  </div>
+  <!-- 1 -->
+  <section>
+    <h2>Dataansvarlig</h2>
+    <p>Den dataansvarlige for behandlingen af dine personoplysninger er:</p>
+    <table>
+      <tr><th>Virksomhed</th><td>Nexter</td></tr>
+      <tr><th>Hjemmeside</th><td><a href="https://nexter.dk">nexter.dk</a></td></tr>
+      <tr><th>Kontakt</th><td>Kontaktformular på nexter.dk</td></tr>
+    </table>
+    <p>Du er altid velkommen til at kontakte os, hvis du har spørgsmål til, hvordan vi behandler dine oplysninger.</p>
+  </section>
+  <!-- 2 -->
+  <section>
+    <h2>Hvilke oplysninger indsamler vi?</h2>
+    <p>Vi indsamler udelukkende de oplysninger, du selv afgiver til os. Det kan ske via vores hjemmeside, Meta-lynformularer (Facebook/Instagram) eller ved direkte henvendelse. Vi indsamler følgende kategorier af oplysninger:</p>
+    <ul>
+      <li>Navn</li>
+      <li>Virksomhedsnavn</li>
+      <li>Telefonnummer</li>
+      <li>E-mailadresse</li>
+      <li>Beskeder og forespørgsler du sender os</li>
+    </ul>
+    <p>Vi indsamler ikke følsomme personoplysninger som CPR-nummer, helbredsoplysninger eller lignende.</p>
+  </section>
+  <!-- 3 -->
+  <section>
+    <h2>Formål med behandlingen</h2>
+    <p>Vi behandler dine personoplysninger til følgende formål:</p>
+    <ul>
+      <li>At besvare din henvendelse og kontakte dig telefonisk eller pr. e-mail</li>
+      <li>At udarbejde og fremsende tilbud på vores ydelser (webdesign, Meta-annoncering, e-mail marketing)</li>
+      <li>At indgå og opfylde aftaler om levering af vores ydelser</li>
+      <li>At overholde vores retlige forpligtelser, herunder bogføringsloven</li>
+    </ul>
+  </section>
+  <!-- 4 -->
+  <section>
+    <h2>Retsgrundlag</h2>
+    <p>Al behandling af dine personoplysninger sker på et lovligt grundlag i henhold til GDPR artikel 6:</p>
+    <table>
+      <tr>
+        <th>Retsgrundlag</th>
+        <th>Situation</th>
+      </tr>
+      <tr>
+        <td><strong>Samtykke</strong> (art. 6, stk. 1, litra a)</td>
+        <td>Når du udfylder vores formular og aktivt afgiver dine oplysninger</td>
+      </tr>
+      <tr>
+        <td><strong>Opfyldelse af aftale</strong> (art. 6, stk. 1, litra b)</td>
+        <td>Når vi behandler oplysninger som led i levering af en aftalt ydelse</td>
+      </tr>
+      <tr>
+        <td><strong>Legitim interesse</strong> (art. 6, stk. 1, litra f)</td>
+        <td>Når vi besvarer henvendelser og varetager vores forretningsmæssige interesser</td>
+      </tr>
+      <tr>
+        <td><strong>Retlig forpligtelse</strong> (art. 6, stk. 1, litra c)</td>
+        <td>Når vi er forpligtet til at opbevare oplysninger jf. bogføringsloven</td>
+      </tr>
+    </table>
+  </section>
+  <!-- 5 -->
+  <section>
+    <h2>Opbevaring og sletning</h2>
+    <p>Vi opbevarer ikke dine oplysninger længere end nødvendigt. Konkret gælder følgende:</p>
+    <ul>
+      <li><strong>Henvendelser uden aftale:</strong> Slettes senest 6 måneder efter den første kontakt</li>
+      <li><strong>Kunder og aftaleparter:</strong> Opbevares i op til 5 år efter aftalens ophør jf. bogføringsloven</li>
+      <li><strong>Samtykke til markedsføring:</strong> Opbevares indtil samtykket trækkes tilbage</li>
+    </ul>
+    <p>Når opbevaringsperioden udløber, slettes eller anonymiseres dine oplysninger på sikker vis.</p>
+  </section>
+  <!-- 6 -->
+  <section>
+    <h2>Videregivelse af oplysninger</h2>
+    <p>Vi sælger aldrig dine personoplysninger til tredjepart. Vi kan dog videregive oplysninger til:</p>
+    <ul>
+      <li><strong>Meta Platforms Inc. (Facebook/Instagram)</strong> – i forbindelse med drift af annoncering og lynformularer på deres platforme, underlagt Metas egne databehandlingsvilkår</li>
+      <li><strong>Tekniske leverandører</strong> – f.eks. hosting-, e-mail- og CRM-udbydere, der er underlagt databehandleraftaler og fortrolighedsforpligtelser</li>
+      <li><strong>Myndigheder</strong> – hvis vi er retligt forpligtet hertil</li>
+    </ul>
+    <p>Vi sikrer, at alle tredjeparter behandler dine oplysninger forsvarligt og i overensstemmelse med gældende lovgivning.</p>
+  </section>
+  <!-- 7 -->
+  <section>
+    <h2>Overførsel til tredjelande</h2>
+    <p>Visse af vores leverandører, herunder Meta Platforms Inc., kan overføre oplysninger til lande uden for EU/EØS. Sådanne overførsler sker i overensstemmelse med GDPR's regler om tredjelande, herunder ved brug af EU-Kommissionens standardkontraktbestemmelser (SCC) eller ved overførsel til lande med tilstrækkeligt beskyttelsesniveau.</p>
+  </section>
+  <!-- 8 -->
+  <section>
+    <h2>Dine rettigheder</h2>
+    <p>Du har en række rettigheder i henhold til GDPR, som du til enhver tid kan gøre brug af:</p>
+    <div class="rights-grid">
+      <div class="right-card">
+        <strong>Ret til indsigt</strong>
+        <span>Du kan anmode om at se, hvilke oplysninger vi har registreret om dig.</span>
+      </div>
+      <div class="right-card">
+        <strong>Ret til berigtigelse</strong>
+        <span>Du kan få rettet urigtige eller ufuldstændige oplysninger.</span>
+      </div>
+      <div class="right-card">
+        <strong>Ret til sletning</strong>
+        <span>Du kan anmode om sletning af dine oplysninger ("retten til at blive glemt").</span>
+      </div>
+      <div class="right-card">
+        <strong>Ret til begrænsning</strong>
+        <span>Du kan kræve, at behandlingen af dine oplysninger begrænses i visse tilfælde.</span>
+      </div>
+      <div class="right-card">
+        <strong>Ret til dataportabilitet</strong>
+        <span>Du kan modtage dine oplysninger i et struktureret, maskinlæsbart format.</span>
+      </div>
+      <div class="right-card">
+        <strong>Ret til indsigelse</strong>
+        <span>Du kan gøre indsigelse mod behandling baseret på legitim interesse.</span>
+      </div>
+      <div class="right-card">
+        <strong>Tilbagekaldelse af samtykke</strong>
+        <span>Du kan til enhver tid trække dit samtykke tilbage uden konsekvenser.</span>
+      </div>
+      <div class="right-card">
+        <strong>Ret til at klage</strong>
+        <span>Du kan indgive klage til Datatilsynet på <a href="https://www.datatilsynet.dk">datatilsynet.dk</a>.</span>
+      </div>
+    </div>
+    <p>For at udøve dine rettigheder bedes du kontakte os via nexter.dk. Vi vil besvare din henvendelse inden for 30 dage.</p>
+  </section>
+  <!-- 9 -->
+  <section>
+    <h2>Cookies og sporing</h2>
+    <p>Vores hjemmeside kan anvende cookies og lignende sporingsteknologier til følgende formål:</p>
+    <ul>
+      <li><strong>Nødvendige cookies:</strong> Sikrer hjemmesidens grundlæggende funktionalitet</li>
+      <li><strong>Analytiske cookies:</strong> Hjælper os med at forstå, hvordan besøgende bruger siden (f.eks. via Google Analytics)</li>
+      <li><strong>Markedsføringscookies:</strong> Bruges til at målrette relevante annoncer via Meta Pixel og lignende</li>
+    </ul>
+    <p>Du vil blive præsenteret for et cookiesamtykke ved dit første besøg, hvor du kan vælge hvilke cookies du accepterer. Du kan til enhver tid ændre dine præferencer.</p>
+  </section>
+  <!-- 10 -->
+  <section>
+    <h2>Datasikkerhed</h2>
+    <p>Vi tager datasikkerheden alvorligt og har implementeret passende tekniske og organisatoriske foranstaltninger for at beskytte dine oplysninger mod uautoriseret adgang, tab eller misbrug. Dette omfatter bl.a. sikker kryptering af data under overførsel (SSL/TLS) samt adgangskontrol til systemer, der indeholder personoplysninger.</p>
+    <p>I tilfælde af et sikkerhedsbrud, der udgør en risiko for dine rettigheder og frihedsrettigheder, vil vi anmelde dette til Datatilsynet inden for 72 timer og underrette dig, hvis det vurderes nødvendigt.</p>
+  </section>
+  <!-- 11 -->
+  <section>
+    <h2>Ændringer til denne politik</h2>
+    <p>Vi forbeholder os retten til at opdatere og ændre denne privatlivspolitik. Ved væsentlige ændringer vil vi informere dig via e-mail (hvis vi har din adresse) eller via en tydelig meddelelse på vores hjemmeside. Datoen for seneste opdatering fremgår altid øverst i dokumentet. Vi opfordrer dig til jævnligt at gennemse denne politik.</p>
+  </section>
+  <!-- Contact -->
+  <div class="contact-box">
+    <h3>Kontakt os</h3>
+    <p>Har du spørgsmål til vores behandling af personoplysninger, eller ønsker du at udøve dine rettigheder?</p>
+    <p style="margin-top:12px;">📧 Kontakt os via formularen på <a href="https://nexter.dk">nexter.dk</a></p>
+    <p>🌐 <a href="https://nexter.dk">nexter.dk</a></p>
+    <p style="margin-top: 12px; font-size: 13px; color: #64748b;">Vi bestræber os på at besvare alle henvendelser inden for 5 hverdage.</p>
+  </div>
+  <footer>
+    &copy; 2026 Nexter &nbsp;·&nbsp; <a href="https://nexter.dk">nexter.dk</a> &nbsp;·&nbsp; Privatlivspolitik v1.0
+  </footer>
+</div>
+</body>
+</html>
