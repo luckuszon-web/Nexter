@@ -678,11 +678,29 @@
     const email = document.getElementById('leadEmail').value.trim();
     const msg = document.getElementById('leadMsg').value.trim();
     if (!name || !phone) { alert('Udfyld venligst navn og telefonnummer.'); return; }
-    const subject = encodeURIComponent('Ny lead: Bliv ringet op — ' + name);
-    const body = encodeURIComponent('Navn: ' + name + 'Telefon: ' + phone + 'E-mail: ' + (email||'—') + 'Besked:' + (msg||'—'));
-    window.location.href = 'mailto:Luckuszon@gmail.com?subject=' + subject + '&body=' + body;
-    document.getElementById('leadForm').style.display = 'none';
-    document.getElementById('leadSuccess').style.display = 'block';
+    const btn = document.querySelector('.lead-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sender…';
+    fetch('https://formspree.io/f/mvzwarkq', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, message: msg })
+    })
+    .then(res => {
+      if (res.ok) {
+        document.getElementById('leadForm').style.display = 'none';
+        document.getElementById('leadSuccess').style.display = 'block';
+      } else {
+        alert('Noget gik galt. Prøv igen eller ring til os direkte.');
+        btn.disabled = false;
+        btn.textContent = 'Send forespørgsel →';
+      }
+    })
+    .catch(() => {
+      alert('Netværksfejl. Prøv igen.');
+      btn.disabled = false;
+      btn.textContent = 'Send forespørgsel →';
+    });
   }
 
   document.querySelectorAll('.svc-card').forEach(card => {
