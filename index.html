@@ -598,6 +598,7 @@
         <input class="lead-input" id="leadPhone" type="tel" placeholder="Telefonnummer" />
       </div>
       <input class="lead-input" id="leadEmail" type="email" placeholder="E-mailadresse" />
+      <input class="lead-input" id="leadWebsite" type="url" placeholder="Nuværende hjemmeside (valgfrit)" />
       <textarea class="lead-input lead-textarea" id="leadMsg" placeholder="Kort beskrivelse af din virksomhed (valgfrit)"></textarea>
       <button class="lead-submit" onclick="submitLead()">Send forespørgsel →</button>
       <p class="lead-disclaimer">Vi deler aldrig dine oplysninger med tredjepart.</p>
@@ -677,6 +678,7 @@
     const phone = document.getElementById('leadPhone').value.trim();
     const email = document.getElementById('leadEmail').value.trim();
     const msg = document.getElementById('leadMsg').value.trim();
+    const website = document.getElementById('leadWebsite').value.trim();
     if (!name || !phone) { alert('Udfyld venligst navn og telefonnummer.'); return; }
     const btn = document.querySelector('.lead-submit');
     btn.disabled = true;
@@ -684,7 +686,7 @@
     fetch('https://formspree.io/f/mvzwarkq', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, email, message: msg })
+      body: JSON.stringify({ name, phone, email, website, message: msg })
     })
     .then(res => {
       if (res.ok) {
