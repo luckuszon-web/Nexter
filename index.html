@@ -281,10 +281,11 @@
     @media (max-width: 900px) {
       /* OVERFLOW FIX — forhindrer horisontal scroll */
       *, *::before, *::after { max-width: 100%; }
-      section, .stats-bar, .marquee-wrap, .work, footer, .process, .cta-section {
+      section, .stats-bar, .marquee-wrap, .work, footer, .process {
         width: 100%;
         overflow-x: hidden;
       }
+      .cta-section { width: calc(100% - 24px); overflow-x: hidden; }
       .orb-1 { width: 200px; height: 200px; left: -60px; }
       .orb-2 { width: 160px; height: 160px; right: -40px; }
       .orb-3 { display: none; }
