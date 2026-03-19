@@ -291,9 +291,7 @@
         <div class="options">${optionsHTML}</div>
         <div class="step-nav">
           ${index > 0 ? `<button class="btn-back" onclick="goBack()">← Tilbage</button>` : `<div></div>`}
-          <button class="btn-next" id="btnNext" onclick="goNext()" ${selectedIdx === undefined ? 'disabled' : ''}>
-            ${index === steps.length - 1 ? 'Fortsæt →' : 'Næste →'}
-          </button>
+          <div></div>
         </div>
       </div>
     `;
@@ -301,6 +299,15 @@
   function selectOption(stepIdx, optIdx) {
     answers[stepIdx] = optIdx;
     renderStep(stepIdx);
+    setTimeout(() => {
+      if (stepIdx < steps.length - 1) {
+        currentStep++;
+        renderStep(currentStep);
+      } else {
+        renderLeadForm();
+      }
+      window.scrollTo({ top: 300, behavior: 'smooth' });
+    }, 300);
   }
   function goNext() {
     if (answers[currentStep] === undefined) return;
