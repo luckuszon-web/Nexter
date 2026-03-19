@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beregn min pris — Nexter</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060a;
+      --surface: #0e0e16;
+      --surface2: #13131e;
+      --border: rgba(255,255,255,0.06);
+      --text: #f0eff8;
+      --muted: rgba(240,239,248,0.45);
+      --accent: #3b82f6;
+      --accent2: #60a5fa;
+      --green: #4ade80;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; cursor: none; min-height: 100vh; }
+    #cursor { position:fixed; top:0; left:0; width:12px; height:12px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transition:width .3s,height .3s,background .3s; mix-blend-mode:screen; }
+    #cursor-trail { position:fixed; top:0; left:0; width:40px; height:40px; border:1px solid rgba(124,109,250,0.4); border-radius:50%; pointer-events:none; z-index:9998; }
+    body:has(button:hover) #cursor { width:48px; height:48px; background:rgba(124,109,250,0.3); }
+    @media (hover:none) and (pointer:coarse) { body { cursor:auto; } #cursor,#cursor-trail { display:none; } }
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; padding:24px 56px; transition:background .5s,backdrop-filter .5s,border-color .5s; border-bottom:1px solid transparent; }
+    nav.scrolled { background:rgba(6,6,10,0.85); backdrop-filter:blur(20px); border-color:var(--border); }
+    .logo { font-family:var(--font-head); font-size:22px; font-weight:800; letter-spacing:-0.03em; text-decoration:none; color:var(--text); }
+    .logo-dot { color:var(--accent); }
+    .nav-links { display:flex; gap:40px; list-style:none; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; transition:color .2s; }
+    .nav-links a:hover { color:var(--text); }
+    .nav-btn { background:var(--accent); color:white; padding:11px 26px; border-radius:100px; font-size:13px; font-weight:600; text-decoration:none; transition:transform .2s,box-shadow .2s; }
+    .nav-btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(59,130,246,0.4); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; z-index:210; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--text); border-radius:2px; transition:transform .3s,opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display:none; position:fixed; inset:0; background:rgba(6,6,10,0.97); z-index:200; flex-direction:column; align-items:center; justify-content:center; gap:36px; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-family:var(--font-head); font-size:28px; font-weight:800; color:var(--text); text-decoration:none; }
+    .mobile-menu .nav-btn { font-size:16px; padding:14px 36px; margin-top:8px; }
+    /* HERO */
+    .hero { min-height:45vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:140px 40px 60px; position:relative; overflow:hidden; }
+    .hero-mesh { position:absolute; inset:-50%; background:radial-gradient(ellipse 50% 50% at 20% 20%,rgba(59,130,246,0.12) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 80% 80%,rgba(96,165,250,0.08) 0%,transparent 60%); animation:meshMove 12s ease-in-out infinite alternate; pointer-events:none; }
+    @keyframes meshMove { 0%{transform:translate(0,0)} 100%{transform:translate(3%,2%)} }
+    .hero-grid { position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:60px 60px; mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 80%); }
+    .hero-content { position:relative; z-index:1; max-width:700px; }
+    .breadcrumb { display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); margin-bottom:24px; }
+    .breadcrumb a { color:var(--muted); text-decoration:none; transition:color .2s; }
+    .breadcrumb a:hover { color:var(--accent2); }
+    .breadcrumb-sep { color:rgba(255,255,255,0.2); }
+    .hero-title { font-family:var(--font-head); font-size:clamp(40px,6vw,78px); font-weight:800; line-height:0.95; letter-spacing:-0.04em; margin-bottom:20px; }
+    .hero-title .grad { color:var(--accent2); }
+    .hero-sub { font-size:17px; color:var(--muted); line-height:1.7; font-weight:300; max-width:480px; margin:0 auto; }
+    /* CALCULATOR */
+    .calc-wrap { max-width:720px; margin:0 auto; padding:0 24px 100px; }
+    /* Progress bar */
+    .progress-wrap { margin-bottom:48px; }
+    .progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+    .progress-label { font-size:13px; color:var(--muted); font-weight:500; }
+    .progress-step { font-size:13px; color:var(--accent2); font-weight:600; }
+    .progress-bar { height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; transition:width .5s cubic-bezier(0.16,1,0.3,1); }
+    /* Step card */
+    .step-card { background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:48px; animation:fadeUp .5s cubic-bezier(0.16,1,0.3,1) both; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .step-question { font-family:var(--font-head); font-size:clamp(22px,3vw,32px); font-weight:800; letter-spacing:-0.02em; line-height:1.2; margin-bottom:8px; }
+    .step-hint { font-size:14px; color:var(--muted); margin-bottom:32px; font-weight:300; }
+    /* Option buttons */
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { width:100%; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:14px; padding:20px 24px; color:var(--text); font-family:var(--font-body); font-size:15px; font-weight:500; text-align:left; cursor:pointer; display:flex; align-items:center; gap:16px; transition:background .2s,border-color .2s,transform .2s; }
+    .opt-btn:hover { background:rgba(59,130,246,0.08); border-color:rgba(59,130,246,0.3); transform:translateX(4px); }
+    .opt-btn.selected { background:rgba(59,130,246,0.12); border-color:var(--accent); }
+    .opt-icon { width:44px; height:44px; border-radius:10px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; transition:background .2s; }
+    .opt-btn.selected .opt-icon { background:rgba(59,130,246,0.25); border-color:var(--accent); }
+    .opt-text { flex:1; }
+    .opt-title { font-size:15px; font-weight:600; margin-bottom:2px; }
+    .opt-sub { font-size:12px; color:var(--muted); font-weight:300; }
+    .opt-check { width:22px; height:22px; border-radius:50%; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .2s,border-color .2s; }
+    .opt-btn.selected .opt-check { background:var(--accent); border-color:var(--accent); }
+    .opt-check svg { opacity:0; transition:opacity .2s; }
+    .opt-btn.selected .opt-check svg { opacity:1; }
+    /* Nav buttons */
+    .step-nav { display:flex; justify-content:space-between; align-items:center; margin-top:28px; }
+    .btn-back { background:none; border:1px solid var(--border); color:var(--muted); padding:13px 24px; border-radius:100px; font-size:14px; font-weight:500; cursor:pointer; transition:border-color .2s,color .2s; font-family:var(--font-body); }
+    .btn-back:hover { border-color:rgba(255,255,255,0.2); color:var(--text); }
+    .btn-next { background:var(--accent); color:white; padding:14px 32px; border-radius:100px; font-size:14px; font-weight:600; cursor:pointer; border:none; transition:transform .2s,box-shadow .2s,background .2s; font-family:var(--font-body); box-shadow:0 4px 20px rgba(59,130,246,0.3); }
+    .btn-next:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(59,130,246,0.5); background:var(--accent2); }
+    .btn-next:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:none; }
+    /* Lead form step */
+    .lead-form { display:flex; flex-direction:column; gap:12px; margin-bottom:8px; }
+    .lead-input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:16px 18px; color:var(--text); font-family:var(--font-body); font-size:15px; outline:none; transition:border-color .2s,box-shadow .2s; }
+    .lead-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.15); }
+    .lead-input::placeholder { color:rgba(255,255,255,0.2); }
+    .lead-disclaimer { font-size:12px; color:rgba(255,255,255,0.2); text-align:center; margin-top:4px; }
+    /* Result step */
+    .result-wrap { text-align:center; }
+    .result-label { font-size:12px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent2); margin-bottom:12px; }
+    .result-price { font-family:var(--font-head); font-size:clamp(52px,8vw,88px); font-weight:800; letter-spacing:-0.04em; line-height:1; margin-bottom:8px; }
+    .result-price .price-val { color:var(--text); }
+    .result-range { font-size:15px; color:var(--muted); margin-bottom:32px; font-weight:300; }
+    .result-items { display:flex; flex-direction:column; gap:10px; margin:28px 0; text-align:left; }
+    .result-item { display:flex; align-items:center; gap:12px; font-size:14px; color:var(--text); }
+    .result-item-check { width:24px; height:24px; border-radius:50%; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; color:var(--accent2); }
+    .result-divider { height:1px; background:var(--border); margin:24px 0; }
+    .result-cta { width:100%; background:var(--accent); color:white; border:none; border-radius:14px; padding:18px; font-family:var(--font-head); font-size:16px; font-weight:700; cursor:pointer; transition:background .2s,transform .2s; box-shadow:0 4px 20px rgba(59,130,246,0.3); }
+    .result-cta:hover { background:var(--accent2); transform:translateY(-2px); }
+    .result-sub { font-size:12px; color:rgba(255,255,255,0.25); margin-top:10px; }
+    /* Guarantee strip */
+    .guarantee { display:flex; justify-content:center; gap:32px; margin-top:40px; flex-wrap:wrap; }
+    .guar-item { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); }
+    .guar-dot { width:6px; height:6px; border-radius:50%; background:var(--green); }
+    /* FOOTER */
+    footer { padding:60px 56px 40px; border-top:1px solid var(--border); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted); }
+    @media (max-width:900px) {
+      nav { padding:16px 20px; }
+      .nav-links,.nav-btn { display:none; }
+      .hamburger { display:flex; }
+      .hero { padding:110px 20px 40px; }
+      .step-card { padding:32px 24px; }
+      footer { padding:40px 20px 32px; }
+      .footer-bottom { flex-direction:column; gap:10px; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+<nav id="nav">
+  <a href="index.html" class="logo">next<span class="logo-dot">er</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Ydelser</a></li>
+    <li><a href="index.html#process">Proces</a></li>
+    <li><a href="index.html#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="index.html#kontakt" class="nav-btn">Kom i gang →</a>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#services" class="mob-link">Ydelser</a>
+  <a href="index.html#process" class="mob-link">Proces</a>
+  <a href="index.html#kontakt" class="mob-link">Kontakt</a>
+  <a href="index.html#kontakt" class="nav-btn">Kom i gang →</a>
+</div>
+<section class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Forside</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Beregn min pris</span>
+    </div>
+    <h1 class="hero-title">Hvad koster<br><span class="grad">din hjemmeside?</span></h1>
+    <p class="hero-sub">Besvar 5 korte spørgsmål og få et prisestimat på din skræddersyede hjemmeside – gratis og uforpligtende.</p>
+  </div>
+</section>
+<div class="calc-wrap">
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-header">
+      <span class="progress-label" id="progressLabel">Spørgsmål 1 af 5</span>
+      <span class="progress-step" id="progressPct">20%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+  </div>
+  <!-- Step container -->
+  <div id="stepContainer"></div>
+</div>
+<footer>
+  <div class="footer-bottom">
+    <span>© 2026 Nexter. Alle rettigheder forbeholdes.</span>
+    <a href="privatlivspolitik.html" style="color:inherit;text-decoration:none;">Privatlivspolitik · Cookies</a>
+  </div>
+</footer>
+<script>
+  // Cursor
+  const cur = document.getElementById('cursor');
+  const trail = document.getElementById('cursor-trail');
+  let mx=0,my=0,tx=0,ty=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.transform=`translate(${mx-6}px,${my-6}px)`; });
+  function animTrail() { tx+=(mx-tx)*0.1; ty+=(my-ty)*0.1; trail.style.transform=`translate(${tx-20}px,${ty-20}px)`; requestAnimationFrame(animTrail); }
+  animTrail();
+  // Nav
+  window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 60));
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mob-link, .mobile-menu .nav-btn').forEach(el => {
+    el.addEventListener('click', () => { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); document.body.style.overflow = ''; });
+  });
+  // ── CALCULATOR LOGIC ────────────────────────────────────
+  const steps = [
+    {
+      q: "Har du en eksisterende hjemmeside?",
+      hint: "Det afgør om vi skal bygge fra bunden eller modernisere.",
+      options: [
+        { icon: "🔄", title: "Ja, den skal moderniseres", sub: "Vi opgraderer din nuværende side", value: "modernisering", price: 2000 },
+        { icon: "✨", title: "Nej, jeg starter fra bunden", sub: "Vi bygger en helt ny hjemmeside", value: "fra_bunden", price: 0 }
+      ]
+    },
+    {
+      q: "Hvad er din virksomhed?",
+      hint: "Hjælper os med at skræddersy løsningen til dig.",
+      options: [
+        { icon: "🔧", title: "Håndværker", sub: "VVS, tømrer, maler, el og lignende", value: "haandvaerker", price: 0 },
+        { icon: "🍽️", title: "Restaurant & café", sub: "Spisested, takeaway, café", value: "restaurant", price: 0 },
+        { icon: "🛍️", title: "Butik & service", sub: "Fysisk forretning eller servicevirksomhed", value: "butik", price: 0 },
+        { icon: "💼", title: "Konsulent & freelance", sub: "Selvstændig eller rådgivning", value: "konsulent", price: 0 }
+      ]
+    },
+    {
+      q: "Hvor mange sider skal hjemmesiden have?",
+      hint: "Hver side er fx forside, om os, kontakt, ydelser osv.",
+      options: [
+        { icon: "📄", title: "1–3 sider", sub: "Kompakt og fokuseret", value: "1_3", price: 10000 },
+        { icon: "📋", title: "4–6 sider", sub: "Standardstørrelse for de fleste virksomheder", value: "4_6", price: 13000 },
+        { icon: "📚", title: "7+ sider", sub: "Større site med mange sektioner", value: "7_plus", price: 17000 }
+      ]
+    },
+    {
+      q: "Hvad skal hjemmesiden primært kunne?",
+      hint: "Vælg det der passer bedst til din virksomheds mål.",
+      options: [
+        { icon: "🏢", title: "Præsentere min virksomhed", sub: "Fortælle hvem I er og hvad I tilbyder", value: "praesente", price: 0 },
+        { icon: "🎯", title: "Generere leads & henvendelser", sub: "Få kunder til at kontakte jer", value: "leads", price: 1500 },
+        { icon: "🚀", title: "Begge dele", sub: "Præsentere og konvertere besøgende", value: "begge", price: 2500 }
+      ]
+    },
+    {
+      q: "Hvornår vil du gå i gang?",
+      hint: "Ingen prestige – vi tilpasser os din tidsplan.",
+      options: [
+        { icon: "⚡", title: "Hurtigst muligt", sub: "Jeg er klar til at starte nu", value: "nu", price: 0 },
+        { icon: "📅", title: "Inden for en måned", sub: "Jeg planlægger stadig", value: "maaned", price: 0 },
+        { icon: "🔍", title: "Bare undersøger mulighederne", sub: "Ikke klar til at beslutte endnu", value: "undersøger", price: 0 }
+      ]
+    }
+  ];
+  let currentStep = 0;
+  let answers = {};
+  let totalPrice = 0;
+  function calcPrice() {
+    let price = 0;
+    if (answers[2] !== undefined) price += steps[2].options[answers[2]].price;
+    if (answers[0] !== undefined) price += steps[0].options[answers[0]].price;
+    if (answers[3] !== undefined) price += steps[3].options[answers[3]].price;
+    return price;
+  }
+  function updateProgress(step, total) {
+    const pct = Math.round(((step + 1) / total) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+    document.getElementById('progressLabel').textContent = `Spørgsmål ${step + 1} af ${total}`;
+  }
+  function renderStep(index) {
+    const container = document.getElementById('stepContainer');
+    updateProgress(index, steps.length);
+    const s = steps[index];
+    const selectedIdx = answers[index];
+    const optionsHTML = s.options.map((opt, i) => `
+      <button class="opt-btn ${selectedIdx === i ? 'selected' : ''}" onclick="selectOption(${index}, ${i})">
+        <div class="opt-icon">${opt.icon}</div>
+        <div class="opt-text">
+          <div class="opt-title">${opt.title}</div>
+          <div class="opt-sub">${opt.sub}</div>
+        </div>
+        <div class="opt-check">
+          <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+            <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </button>
+    `).join('');
+    container.innerHTML = `
+      <div class="step-card">
+        <div class="step-question">${s.q}</div>
+        <div class="step-hint">${s.hint}</div>
+        <div class="options">${optionsHTML}</div>
+        <div class="step-nav">
+          ${index > 0 ? `<button class="btn-back" onclick="goBack()">← Tilbage</button>` : `<div></div>`}
+          <button class="btn-next" id="btnNext" onclick="goNext()" ${selectedIdx === undefined ? 'disabled' : ''}>
+            ${index === steps.length - 1 ? 'Fortsæt →' : 'Næste →'}
+          </button>
+        </div>
+      </div>
+    `;
+  }
+  function selectOption(stepIdx, optIdx) {
+    answers[stepIdx] = optIdx;
+    renderStep(stepIdx);
+  }
+  function goNext() {
+    if (answers[currentStep] === undefined) return;
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      renderStep(currentStep);
+      window.scrollTo({ top: 300, behavior: 'smooth' });
+    } else {
+      renderLeadForm();
+    }
+  }
+  function goBack() {
+    if (currentStep > 0) {
+      currentStep--;
+      renderStep(currentStep);
+      window.scrollTo({ top: 300, behavior: 'smooth' });
+    }
+  }
+  function renderLeadForm() {
+    const container = document.getElementById('stepContainer');
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressPct').textContent = 'Næsten der!';
+    document.getElementById('progressLabel').textContent = 'Indtast dine oplysninger';
+    container.innerHTML = `
+      <div class="step-card">
+        <div class="step-question">Næsten færdig! 🎉</div>
+        <div class="step-hint">Indtast dine oplysninger for at se dit prisestimat – vi kontakter dig aldrig uden din tilladelse.</div>
+        <div class="lead-form">
+          <input class="lead-input" id="leadName" type="text" placeholder="Dit navn" />
+          <input class="lead-input" id="leadPhone" type="tel" placeholder="Telefonnummer" />
+          <input class="lead-input" id="leadEmail" type="email" placeholder="E-mailadresse (valgfrit)" />
+        </div>
+        <p class="lead-disclaimer">Vi deler aldrig dine oplysninger med tredjepart.</p>
+        <div class="step-nav">
+          <button class="btn-back" onclick="currentStep = steps.length - 1; renderStep(currentStep)">← Tilbage</button>
+          <button class="btn-next" onclick="submitAndShowResult()">Se mit prisestimat →</button>
+        </div>
+      </div>
+    `;
+    window.scrollTo({ top: 300, behavior: 'smooth' });
+  }
+  function submitAndShowResult() {
+    const name = document.getElementById('leadName').value.trim();
+    const phone = document.getElementById('leadPhone').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
+    if (!name || !phone) {
+      document.getElementById('leadName').style.borderColor = !name ? 'rgba(239,68,68,0.6)' : '';
+      document.getElementById('leadPhone').style.borderColor = !phone ? 'rgba(239,68,68,0.6)' : '';
+      return;
+    }
+    totalPrice = calcPrice();
+    const low = totalPrice;
+    const high = totalPrice + 2000;
+    const choiceSummary = [
+      steps[0].options[answers[0]]?.title,
+      steps[2].options[answers[2]]?.title,
+      steps[3].options[answers[3]]?.title,
+    ].filter(Boolean);
+    const data = new FormData();
+    data.append('navn', name);
+    data.append('telefon', phone);
+    data.append('email', email || '—');
+    data.append('prisestimat', `${low.toLocaleString('da-DK')}–${high.toLocaleString('da-DK')} kr.`);
+    steps.forEach((s, i) => {
+      if (answers[i] !== undefined) {
+        data.append(s.q, s.options[answers[i]].title);
+      }
+    });
+    fetch('https://formspree.io/f/xaqpvjdj', {
+      method: 'POST', body: data, headers: { 'Accept': 'application/json' }
+    }).catch(() => {});
+    renderResult(name, low, high, choiceSummary);
+  }
+  function renderResult(name, low, high, summary) {
+    const container = document.getElementById('stepContainer');
+    document.querySelector('.progress-wrap').style.display = 'none';
+    const firstName = name.split(' ')[0];
+    const summaryHTML = summary.map(s => `
+      <div class="result-item">
+        <div class="result-item-check">✓</div>
+        <span>${s}</span>
+      </div>
+    `).join('');
+    container.innerHTML = `
+      <div class="step-card">
+        <div class="result-wrap">
+          <div class="result-label">Dit prisestimat, ${firstName}</div>
+          <div class="result-price">
+            <span class="price-val">${low.toLocaleString('da-DK')}–${high.toLocaleString('da-DK')}</span>
+          </div>
+          <div class="result-range">kr. inkl. alt – ingen skjulte gebyrer</div>
+          <div class="result-divider"></div>
+          <div style="text-align:left">
+            <div style="font-size:12px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Baseret på dine svar</div>
+            <div class="result-items">${summaryHTML}</div>
+          </div>
+          <div class="result-divider"></div>
+          <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:14px;padding:20px;margin-bottom:24px;text-align:left;">
+            <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:6px;">Tilfredshedsgaranti</div>
+            <div style="font-size:14px;color:var(--muted);font-weight:300;line-height:1.6;">Kan du ikke lide hjemmesiden, betaler du ikke. Ingen risiko.</div>
+          </div>
+          <button class="result-cta" onclick="window.location.href='index.html#kontakt'">
+            Book en gratis samtale →
+          </button>
+          <div class="result-sub">Vi ringer dig op inden for 24 timer · Uforpligtende</div>
+        </div>
+        <div class="guarantee">
+          <div class="guar-item"><div class="guar-dot"></div>Leveret på 5 dage</div>
+          <div class="guar-item"><div class="guar-dot"></div>100% skræddersyet</div>
+          <div class="guar-item"><div class="guar-dot"></div>30 dages support</div>
+        </div>
+      </div>
+    `;
+    window.scrollTo({ top: 200, behavior: 'smooth' });
+  }
+  // Init
+  renderStep(0);
+</script>
+</body>
+</html>
