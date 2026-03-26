@@ -48,10 +48,6 @@
     @keyframes meshMove { 0%{transform:translate(0,0)} 100%{transform:translate(3%,2%)} }
     .hero-grid { position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:60px 60px; mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 80%); }
     .hero-content { position:relative; z-index:1; max-width:700px; }
-    .breadcrumb { display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); margin-bottom:24px; }
-    .breadcrumb a { color:var(--muted); text-decoration:none; transition:color .2s; }
-    .breadcrumb a:hover { color:var(--accent2); }
-    .breadcrumb-sep { color:rgba(255,255,255,0.2); }
     .hero-title { font-family:var(--font-head); font-size:clamp(28px,3.5vw,44px); font-weight:800; line-height:1.1; letter-spacing:-0.03em; margin-bottom:16px; }
     .hero-title .grad { color:var(--accent2); }
     .hero-sub { font-size:17px; color:var(--muted); line-height:1.7; font-weight:300; max-width:480px; margin:0 auto; }
@@ -148,11 +144,6 @@
   <div class="hero-mesh"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="breadcrumb">
-      <a href="index.html">Forside</a>
-      <span class="breadcrumb-sep">/</span>
-      <span>Beregn min pris</span>
-    </div>
     <h1 class="hero-title">Beregn min pris</h1>
     <p class="hero-sub">Besvar 5 korte spørgsmål og få et prisestimat på din skræddersyede hjemmeside – gratis og uforpligtende.</p>
   </div>
