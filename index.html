@@ -35,6 +35,8 @@
   }
   </script>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- Meta Pixel -->
   <script>
     !function(f,b,e,v,n,t,s)
@@ -548,7 +550,10 @@
       <!-- CARD: Nikolaj Høyer -->
       <div class="port-card reveal">
         <div class="port-preview" id="portPreview0">
-          <img src="screenshots/nikolaj-hoyer.jpg" alt="Nikolaj Høyer" class="port-img" id="portImg0" />
+          <picture>
+            <source srcset="screenshots/nikolaj-hoyer.webp" type="image/webp" />
+            <img src="screenshots/nikolaj-hoyer.jpg" alt="Screenshot af hjemmeside bygget til Nikolaj Høyer, tømrermester i Nordsjælland" class="port-img" id="portImg0" loading="lazy" width="1280" height="720" />
+          </picture>
           <div class="magnifier" id="mag0"></div>
         </div>
         <div class="port-info">
@@ -748,7 +753,8 @@
       mag.style.top = y + 'px';
       var bgX = (x / r.width * 100);
       var bgY = (y / r.height * 100);
-      mag.style.backgroundImage = 'url(' + img.src + ')';
+      var imgSrc = img.currentSrc || img.src;
+      mag.style.backgroundImage = 'url(' + imgSrc + ')';
       mag.style.backgroundSize = (r.width * zoom) + 'px ' + (r.height * zoom) + 'px';
       mag.style.backgroundPosition = 'calc(' + bgX + '% + ' + (90 - bgX * 1.8) + 'px) calc(' + bgY + '% + ' + (90 - bgY * 1.8) + 'px)';
     });
