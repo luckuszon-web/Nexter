@@ -269,6 +269,18 @@
     }
     .mobile-menu .nav-btn { font-size: 16px; padding: 14px 36px; margin-top: 8px; }
 
+    /* PORTFOLIO */
+    .port-card { width:100%; max-width:560px; background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; transition:transform .3s,box-shadow .3s; }
+    .port-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
+    .port-preview { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; cursor:crosshair; }
+    .port-img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; pointer-events:none; }
+    .magnifier { display:none; position:absolute; width:180px; height:180px; border-radius:50%; border:2px solid var(--accent); box-shadow:0 8px 32px rgba(0,0,0,0.5); overflow:hidden; pointer-events:none; transform:translate(-50%,-50%); z-index:10; background-repeat:no-repeat; }
+    .port-info { padding:20px 24px; }
+    .port-tag { font-size:11px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent2); margin-bottom:6px; }
+    .port-name { font-family:var(--font-head); font-size:20px; font-weight:800; letter-spacing:-0.02em; margin-bottom:12px; }
+    .port-link { font-size:13px; font-weight:600; color:var(--accent2); text-decoration:none; transition:color .2s; }
+    .port-link:hover { color:var(--text); }
+
     @media (max-width: 900px) {
       /* OVERFLOW FIX — forhindrer horisontal scroll */
       *, *::before, *::after { max-width: 100%; }
@@ -495,6 +507,31 @@
   </div>
 </section>
 
+<!-- PORTFOLIO -->
+<section id="portfolio" style="padding:100px 56px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="reveal" style="text-align:center;margin-bottom:64px;">
+      <div class="s-label" style="justify-content:center;">Vores arbejde</div>
+      <h2 class="s-title">Seneste projekter</h2>
+      <p style="font-size:17px;color:var(--muted);line-height:1.7;font-weight:300;max-width:460px;margin:16px auto 0;">Hjemmesider vi har bygget til rigtige virksomheder.</p>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:32px;justify-content:center;">
+      <!-- CARD: Nikolaj Høyer -->
+      <div class="port-card reveal">
+        <div class="port-preview" id="portPreview0">
+          <img src="screenshots/nikolaj-hoyer.jpg" alt="Nikolaj Høyer" class="port-img" id="portImg0" />
+          <div class="magnifier" id="mag0"></div>
+        </div>
+        <div class="port-info">
+          <div class="port-tag">Tømrermester · Nordsjælland</div>
+          <h3 class="port-name">Nikolaj Høyer</h3>
+          <a href="https://luckuszon-web.github.io/NikolajHoyer/" target="_blank" rel="noopener" class="port-link">Besøg siden →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="process" style="padding:80px 32px">
   <div class="process">
     <div class="process-header">
@@ -663,6 +700,27 @@
       const r = card.getBoundingClientRect();
       card.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
       card.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    });
+  });
+
+  // MAGNIFIER
+  document.querySelectorAll('.port-preview').forEach(function(preview) {
+    var img = preview.querySelector('.port-img');
+    var mag = preview.querySelector('.magnifier');
+    var zoom = 2.5;
+    preview.addEventListener('mouseenter', function() { mag.style.display = 'block'; });
+    preview.addEventListener('mouseleave', function() { mag.style.display = 'none'; });
+    preview.addEventListener('mousemove', function(e) {
+      var r = preview.getBoundingClientRect();
+      var x = e.clientX - r.left;
+      var y = e.clientY - r.top;
+      mag.style.left = x + 'px';
+      mag.style.top = y + 'px';
+      var bgX = (x / r.width * 100);
+      var bgY = (y / r.height * 100);
+      mag.style.backgroundImage = 'url(' + img.src + ')';
+      mag.style.backgroundSize = (r.width * zoom) + 'px ' + (r.height * zoom) + 'px';
+      mag.style.backgroundPosition = 'calc(' + bgX + '% + ' + (90 - bgX * 1.8) + 'px) calc(' + bgY + '% + ' + (90 - bgY * 1.8) + 'px)';
     });
   });
 </script>
