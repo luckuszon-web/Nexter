@@ -143,13 +143,16 @@
     .faq-item.open .faq-a { max-height:300px; }
     .faq-a-inner { padding:0 32px 26px; font-size:15px; color:var(--muted); line-height:1.75; font-weight:300; }
     /* CTA */
-    .cta-section { margin:0 32px 80px; border-radius:32px; background:linear-gradient(135deg,var(--accent) 0%,#5b21b6 50%,var(--accent2) 100%); padding:100px 80px; text-align:center; position:relative; overflow:hidden; }
-    .cta-section::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-    .cta-content { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; }
-    .cta-title { font-family:var(--font-head); font-size:clamp(36px,5vw,62px); font-weight:800; letter-spacing:-0.04em; line-height:1; color:white; margin-bottom:16px; }
-    .cta-sub { font-size:17px; color:rgba(255,255,255,0.7); margin-bottom:40px; font-weight:300; }
-    .btn-white { display:inline-block; background:white; color:var(--accent); padding:18px 44px; border-radius:100px; font-size:15px; font-weight:700; text-decoration:none; transition:transform .25s,box-shadow .25s; }
-    .btn-white:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.3); }
+    .cta-section { margin:0 32px 80px; border-radius:24px; background:var(--surface); border:1px solid var(--border); padding:56px 64px; display:flex; align-items:center; justify-content:space-between; gap:48px; position:relative; overflow:hidden; }
+    .cta-section::before { content:''; position:absolute; top:-50%; right:-5%; width:480px; height:480px; background:radial-gradient(circle,rgba(59,130,246,0.1) 0%,transparent 70%); pointer-events:none; }
+    .cta-content { position:relative; z-index:1; }
+    .cta-title { font-family:var(--font-head); font-size:clamp(22px,2.5vw,34px); font-weight:800; letter-spacing:-0.03em; line-height:1.15; color:var(--text); margin-bottom:8px; }
+    .cta-sub { font-size:15px; color:var(--muted); font-weight:300; }
+    .cta-actions { display:flex; gap:12px; flex-wrap:wrap; flex-shrink:0; position:relative; z-index:1; }
+    .btn-white { display:inline-block; background:var(--accent); color:white; padding:14px 28px; border-radius:100px; font-size:14px; font-weight:600; text-decoration:none; transition:transform .2s,box-shadow .2s; box-shadow:0 4px 20px rgba(59,130,246,0.3); white-space:nowrap; }
+    .btn-white:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(59,130,246,0.5); }
+    .btn-white-outline { display:inline-block; background:transparent; border:1px solid var(--border); color:var(--text); padding:13px 28px; border-radius:100px; font-size:14px; font-weight:500; text-decoration:none; transition:border-color .2s,transform .2s; cursor:pointer; font-family:var(--font-body); white-space:nowrap; }
+    .btn-white-outline:hover { border-color:rgba(255,255,255,0.3); transform:translateY(-2px); }
     /* FOOTER */
     footer { padding:80px 56px 40px; border-top:1px solid var(--border); }
     .footer-top { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:60px; margin-bottom:60px; }
@@ -183,7 +186,9 @@
       .social-proof { padding:72px 20px; }
       .proof-grid { grid-template-columns:1fr; }
       .faq { padding:72px 20px; }
-      .cta-section { margin:0 12px 60px; padding:56px 24px; }
+      .cta-section { margin:0 12px 60px; padding:40px 24px; flex-direction:column; align-items:flex-start; gap:28px; }
+      .cta-actions { flex-direction:column; width:100%; }
+      .btn-white, .btn-white-outline { text-align:center; padding:14px 20px; }
       .cta-title { font-size:clamp(28px,8vw,42px); }
       footer { padding:60px 20px 32px; }
       .footer-top { grid-template-columns:1fr 1fr; gap:36px; }
@@ -401,7 +406,10 @@
   <div class="cta-content">
     <h2 class="cta-title">Klar til at vokse online?</h2>
     <p class="cta-sub">Uforpligtende samtale. Svar inden for 24 timer.</p>
-    <a href="index.html#kontakt" class="btn-white">Få et gratis tilbud →</a>
+  </div>
+  <div class="cta-actions">
+    <a href="beregn-pris.html" class="btn-white">Beregn min pris →</a>
+    <a href="mailto:Kontakt@nexter.dk" class="btn-white-outline">Skriv til os</a>
   </div>
 </div>
 <!-- FOOTER -->
