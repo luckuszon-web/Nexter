@@ -304,7 +304,7 @@
     /* PORTFOLIO */
     .port-card { width:100%; max-width:560px; background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; transition:transform .3s,box-shadow .3s; }
     .port-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
-    .port-preview { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; cursor:crosshair; }
+    .port-preview { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; cursor:pointer; }
     .port-img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; pointer-events:none; transition:transform .45s ease; }
     .port-preview:hover .port-img { transform:scale(1.05); }
     .magnifier { display:none; position:absolute; width:180px; height:180px; border-radius:50%; border:2px solid var(--accent); box-shadow:0 8px 32px rgba(0,0,0,0.5); overflow:hidden; pointer-events:none; transform:translate(-50%,-50%); z-index:10; background-repeat:no-repeat; }
@@ -550,13 +550,15 @@
     <div style="display:flex;flex-wrap:wrap;gap:32px;justify-content:center;">
       <!-- CARD: Nikolaj Høyer -->
       <div class="port-card reveal">
-        <div class="port-preview" id="portPreview0" data-url="https://luckuszon-web.github.io/NikolajHoyer/" style="cursor:pointer;">
+        <a href="https://luckuszon-web.github.io/NikolajHoyer/" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="port-preview" id="portPreview0">
           <picture>
             <source srcset="screenshots/nikolaj-hoyer.webp" type="image/webp" />
             <img src="screenshots/nikolaj-hoyer.jpg" alt="Screenshot af hjemmeside bygget til Nikolaj Høyer, tømrermester i Nordsjælland" class="port-img" id="portImg0" loading="lazy" width="1280" height="768" />
           </picture>
           <div class="magnifier" id="mag0"></div>
         </div>
+        </a>
         <div class="port-info">
           <div class="port-tag">Tømrermester · Nordsjælland</div>
           <h3 class="port-name">Nikolaj Høyer</h3>
@@ -746,7 +748,6 @@
     var zoom = 2.5;
     preview.addEventListener('mouseenter', function() { mag.style.display = 'block'; });
     preview.addEventListener('mouseleave', function() { mag.style.display = 'none'; });
-    preview.addEventListener('click', function() { var url = preview.getAttribute('data-url'); if (url) window.open(url, '_blank', 'noopener'); });
     preview.addEventListener('mousemove', function(e) {
       var r = preview.getBoundingClientRect();
       var x = e.clientX - r.left;
