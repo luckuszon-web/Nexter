@@ -84,17 +84,16 @@
     .s-title { font-family: var(--font-head); font-size: clamp(28px,3vw,42px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 20px; }
     .s-sub { max-width: 480px; }
 
-    /* SERVICES */
-    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
-    .services-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-    .svc-card { background: var(--surface); padding: 48px 40px; transition: background 0.3s, border-color 0.3s; }
-    .svc-card:hover { background: var(--surface2); }
-    .svc-icon-wrap { width: 52px; height: 52px; background: rgba(37,99,235,0.12); border: 1px solid rgba(37,99,235,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; transition: background 0.3s, transform 0.3s; }
-    .svc-card:hover .svc-icon-wrap { background: rgba(37,99,235,0.22); transform: scale(1.05); }
-    .svc-name { font-family: var(--font-head); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
-    .svc-text { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; }
-    .svc-arrow { display: inline-flex; align-items: center; gap: 6px; margin-top: 28px; font-size: 13px; color: var(--accent2); font-weight: 500; transition: gap 0.2s; }
-    .svc-card:hover .svc-arrow { gap: 12px; }
+    /* SERVICES — full-width rækker */
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; }
+    .svc-list { border-top: 1px solid var(--border); }
+    .svc-row { display: grid; grid-template-columns: 64px 1fr auto; gap: 48px; align-items: center; padding: 44px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; transition: background 0.25s, padding 0.25s, margin 0.25s; }
+    .svc-row:hover { background: var(--surface2); margin: 0 -56px; padding-left: 56px; padding-right: 56px; }
+    .svc-num { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; align-self: flex-start; padding-top: 8px; }
+    .svc-name { font-family: var(--font-head); font-size: clamp(20px,2.5vw,30px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .svc-text { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 520px; }
+    .svc-link { font-size: 13px; font-weight: 600; color: var(--accent2); white-space: nowrap; display: flex; align-items: center; gap: 6px; flex-shrink: 0; transition: gap 0.2s; }
+    .svc-row:hover .svc-link { gap: 12px; }
 
     /* WORK */
     .work { padding: 120px 0; }
@@ -224,8 +223,9 @@
 
       /* SERVICES */
       .services-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-      .services-grid { grid-template-columns: 1fr; }
-      .svc-card { padding: 32px 24px; }
+      .svc-row { grid-template-columns: 40px 1fr; gap: 20px; padding: 28px 0; }
+      .svc-row:hover { margin: 0; padding: 28px 0; background: transparent; }
+      .svc-link { display: none; }
 
       /* WORK */
       .work { padding: 72px 0; }
@@ -324,30 +324,38 @@
     </div>
     <p class="s-sub reveal-right">Alt hvad din virksomhed behøver for at stå stærkt online — ét team, ét ansvar.</p>
   </div>
-  <div class="services-grid">
-    <div class="svc-card reveal delay-1">
-      <div class="svc-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-      <div class="svc-name">Webdesign & udvikling</div>
-      <p class="svc-text">Skræddersyet design der afspejler din identitet og omdanner besøgende til betalende kunder.</p>
-      <a href="webdesign.html" class="svc-arrow">Læs mere <span>→</span></a>
+  <div class="svc-list">
+    <a href="webdesign.html" class="svc-row reveal delay-1">
+      <div class="svc-num">01</div>
+      <div class="svc-body">
+        <div class="svc-name">Webdesign & udvikling</div>
+        <p class="svc-text">Skræddersyet design der afspejler din identitet og omdanner besøgende til betalende kunder.</p>
+      </div>
+      <div class="svc-link">Læs mere <span>→</span></div>
+    </a>
+    <a href="meta-email-marketing.html" class="svc-row reveal delay-2">
+      <div class="svc-num">02</div>
+      <div class="svc-body">
+        <div class="svc-name">Meta og email marketing</div>
+        <p class="svc-text">Spor dine besøgende og automatisér din markedsføring — vi integrerer Meta Pixel og Klaviyo, så du kan målrette de rigtige kunder og øge salget.</p>
+      </div>
+      <div class="svc-link">Læs mere <span>→</span></div>
+    </a>
+    <div class="svc-row reveal delay-3">
+      <div class="svc-num">03</div>
+      <div class="svc-body">
+        <div class="svc-name">Vedligehold & support</div>
+        <p class="svc-text">Vi er din digitale partner også efter lancering — opdateringer og support inkluderet.</p>
+      </div>
+      <div class="svc-link">Kommende <span>→</span></div>
     </div>
-    <div class="svc-card reveal delay-2">
-      <div class="svc-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg></div>
-      <div class="svc-name">Meta og email marketing</div>
-      <p class="svc-text">Spor dine besøgende og automatisér din markedsføring — vi integrerer Meta Pixel og Klaviyo, så du kan målrette de rigtige kunder og øge salget.</p>
-      <a href="meta-email-marketing.html" class="svc-arrow">Læs mere <span>→</span></a>
-    </div>
-    <div class="svc-card reveal delay-3">
-      <div class="svc-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-      <div class="svc-name">Vedligehold & support</div>
-      <p class="svc-text">Vi er din digitale partner også efter lancering — opdateringer og support inkluderet.</p>
-      <div class="svc-arrow">Læs mere <span>→</span></div>
-    </div>
-    <div class="svc-card reveal delay-4">
-      <div class="svc-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent2)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg></div>
-      <div class="svc-name">SEO & SEM</div>
-      <p class="svc-text">Bliv fundet på Google — vi optimerer din organiske synlighed og opsætter betalte søgeannoncer der rammer præcis de kunder du vil have.</p>
-      <div class="svc-arrow">Læs mere <span>→</span></div>
+    <div class="svc-row reveal delay-4">
+      <div class="svc-num">04</div>
+      <div class="svc-body">
+        <div class="svc-name">SEO & SEM</div>
+        <p class="svc-text">Bliv fundet på Google — vi optimerer din organiske synlighed og opsætter betalte søgeannoncer der rammer præcis de kunder du vil have.</p>
+      </div>
+      <div class="svc-link">Kommende <span>→</span></div>
     </div>
   </div>
 </section>
