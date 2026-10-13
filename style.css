@@ -3,9 +3,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #ffffff;
-  --surface: #ffffff;
-  --surface2: #f8fafc;
+  --bg: #faf8f5;
+  --surface: #faf8f5;
+  --surface2: #f3efe9;
   --border: #e2e8f0;
   --text: #0f172a;
   --muted: #64748b;
