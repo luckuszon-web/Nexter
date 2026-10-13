@@ -57,10 +57,10 @@
   <!-- End Meta Pixel -->
   <style>
     /* HERO */
-    .hero { min-height: 88vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 120px 56px 80px; max-width: 100%; }
-    .hero-content { max-width: 860px; width: 100%; text-align: left; display: flex; flex-direction: column; align-items: flex-start; }
-    .hero-title { font-family: var(--font-head); font-size: clamp(44px,7vw,88px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 28px; animation: fadeUp 0.9s ease 0.1s both; }
-    .hero-sub { font-size: clamp(16px,2vw,19px); color: var(--muted); line-height: 1.7; max-width: 560px; margin: 0 0 48px; font-weight: 300; animation: fadeUp 0.9s ease 0.2s both; }
+    .hero { min-height: 88vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; padding: 120px 56px 80px; max-width: 100%; }
+    .hero-content { display: flex; flex-direction: column; align-items: flex-start; }
+    .hero-title { font-family: var(--font-head); font-size: clamp(44px,7vw,88px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 36px; animation: fadeUp 0.9s ease 0.1s both; }
+    .hero-sub { font-size: clamp(16px,1.6vw,19px); color: var(--muted); line-height: 1.75; font-weight: 300; animation: fadeUp 0.9s ease 0.2s both; }
 
     /* STATS */
     .stats-bar { padding: 0 56px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; background: var(--surface); overflow: hidden; width: 100%; }
@@ -204,7 +204,7 @@
       .cta-section { width: calc(100% - 24px); overflow-x: hidden; }
 
       /* HERO */
-      .hero { padding: 110px 20px 80px; }
+      .hero { grid-template-columns: 1fr; gap: 32px; padding: 110px 20px 60px; }
       .hero-title { font-size: clamp(40px, 11vw, 68px); }
       .hero-sub { font-size: 17px; }
       .hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }
@@ -300,12 +300,12 @@
 <section class="hero">
   <div class="hero-content">
     <h1 class="hero-title">Din virksomhed fortjener<br><span class="grad">bedre.</span></h1>
-    <p class="hero-sub">Vi bygger professionelle, skræddersyede hjemmesider til lokale virksomheder i Danmark — hurtig levering, fast pris, ingen overraskelser.</p>
     <div class="hero-actions">
       <a href="#kontakt" class="btn-primary">Beregn din pris</a>
       <a href="#portfolio" class="btn-secondary">Se vores arbejde</a>
     </div>
   </div>
+  <p class="hero-sub">Vi bygger professionelle, skræddersyede hjemmesider til lokale virksomheder i Danmark — hurtig levering, fast pris, ingen overraskelser.</p>
 </section>
 
 <div class="stats-bar">
