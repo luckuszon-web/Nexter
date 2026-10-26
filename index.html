@@ -21,22 +21,47 @@
   <meta name="twitter:image" content="https://nexter.dk/screenshots/nikolaj-hoyer.jpg" />
   <!-- Schema.org -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Nexter",
-    "url": "https://nexter.dk",
-    "email": "kontakt@nexter.dk",
-    "description": "Nexter bygger skræddersyede, mobilvenlige hjemmesider til lokale virksomheder i Danmark.",
-    "areaServed": "DK",
-    "serviceType": "Webdesign og webudvikling",
-    "priceRange": "Fra 10.000 kr.",
-    "inLanguage": "da"
-  }
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Nexter",
+      "url": "https://nexter.dk",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://nexter.dk/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": "https://nexter.dk/#business",
+      "name": "Nexter",
+      "url": "https://nexter.dk",
+      "email": "kontakt@nexter.dk",
+      "description": "Nexter bygger skræddersyede, mobilvenlige hjemmesider til lokale virksomheder i Danmark. Leveret på 5 dage, fast pris, ingen overraskelser.",
+      "areaServed": { "@type": "Country", "name": "Denmark" },
+      "serviceType": ["Webdesign", "Webudvikling", "SEO", "Meta-annoncering", "Email marketing"],
+      "priceRange": "Fra 10.000 kr.",
+      "inLanguage": "da",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Ydelser",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Webdesign & udvikling", "url": "https://nexter.dk/webdesign.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Meta & Email Marketing", "url": "https://nexter.dk/meta-email-marketing.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SEO & SEM" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Vedligehold & support" } }
+        ]
+      }
+    }
+  ]
   </script>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap" />
   <link rel="stylesheet" href="style.css" />
   <!-- Meta Pixel -->
   <script>
