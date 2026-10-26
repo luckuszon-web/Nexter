@@ -186,7 +186,8 @@
     /* PORTFOLIO */
     .port-card { background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; transition:transform .3s,box-shadow .3s; }
     .port-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,0.08); }
-    @media (max-width: 700px) { #portfolio .port-grid { grid-template-columns: 1fr !important; } }
+    @media (max-width: 900px) { #portfolio .port-grid { grid-template-columns: 1fr 1fr !important; } }
+    @media (max-width: 600px) { #portfolio .port-grid { grid-template-columns: 1fr !important; } }
     .port-preview { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; cursor:pointer; }
     .port-img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; pointer-events:none; transition:transform .45s ease; }
     .port-preview:hover .port-img { transform:scale(1.05); }
@@ -390,7 +391,7 @@
       <h2 class="s-title">Udvalgte projekter</h2>
       <p style="font-size:17px;color:var(--muted);line-height:1.7;font-weight:300;max-width:460px;margin:16px auto 0;">Hjemmesider vi har bygget.</p>
     </div>
-    <div class="port-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+    <div class="port-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;">
       <!-- CARD: Nikolaj Høyer -->
       <div class="port-card reveal">
         <a href="https://luckuszon-web.github.io/NikolajHoyer/" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
@@ -423,6 +424,23 @@
           <div class="port-tag">Akupunktør · Rungsted Kyst</div>
           <h3 class="port-name">Charlotte Kuszon</h3>
           <a href="https://akupunktoeren.com/" target="_blank" rel="noopener" class="port-link">Besøg siden →</a>
+        </div>
+      </div>
+      <!-- CARD: Boisen Erhverv -->
+      <div class="port-card reveal delay-1">
+        <a href="https://www.boisen-erhverv.dk" target="_blank" rel="noopener" style="display:block;text-decoration:none;">
+        <div class="port-preview" id="portPreview2">
+          <picture>
+            <source srcset="screenshots/boisen-erhverv.webp" type="image/webp" />
+            <img src="screenshots/boisen-erhverv.jpg" alt="Screenshot af hjemmeside bygget til Boisen Erhverv, erhvervsejendomme i Nordsjælland" class="port-img" id="portImg2" loading="lazy" width="1280" height="768" />
+          </picture>
+          <div class="magnifier" id="mag2"></div>
+        </div>
+        </a>
+        <div class="port-info">
+          <div class="port-tag">Erhvervsejendomme · Nordsjælland</div>
+          <h3 class="port-name">Boisen Erhverv</h3>
+          <a href="https://www.boisen-erhverv.dk" target="_blank" rel="noopener" class="port-link">Besøg siden →</a>
         </div>
       </div>
       </div>
